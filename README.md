@@ -39,6 +39,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## TODO
 - [x] Create map with zoom and separate countries
-- [ ] Create a page with the list of movies from that country with pagination
+- [ ] Use [CockroachDB](https://cockroachlabs.cloud/signup) as server
+- [x] Create a page with the list of movies from that country
+- [x] Create pagination for the list of movies from country
+- [ ] Create pagination on backend
 - [ ] Create a page with details about the movie
 - [ ] Create integration with justwatch or watch mode
+- [ ] Allow to create an account to add to want to watch it
+- [ ] Allow users to recomend a movie
