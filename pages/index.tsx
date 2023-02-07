@@ -9,11 +9,13 @@ import { FaArrowRight } from "react-icons/fa";
 import Footer from "./components/Footer";
 import Navbar from "./components/NavBar";
 import { getFlagByCountryNameMini } from "./utils/flags";
+import Context from "./context/context";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const [selected, setSelected] = useState<SelectedProps>({ name: "", id: "" });
+
   return (
     <div className="overflow-hidden">
       <Navbar />
@@ -22,7 +24,7 @@ export default function Home() {
       </main>
       <footer
         className="flex flex-row justify-between align-center z-10 dark:bg-gray-900 absolute bottom-0 w-full min-w-full h-24 p-6"
-       
+      
       >
         {selected.name && (
           <>
