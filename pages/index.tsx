@@ -9,7 +9,6 @@ import { FaArrowRight } from "react-icons/fa";
 import Footer from "./components/Footer";
 import Navbar from "./components/NavBar";
 import { getFlagByCountryNameMini } from "./utils/flags";
-import Context from "./context/context";
 
 const inter = Inter({ subsets: ["latin"] });
 

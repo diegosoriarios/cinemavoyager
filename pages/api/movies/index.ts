@@ -25,6 +25,7 @@ export default function handler(req, res) {
         year: "2019",
         genres: ["Action","Adventure","Drama","Horror","Mystery","Thriller","Western"], 
         country: "BRA",
+        author: "Diego Soria Rios",
       },
       {
         name: "Bacurau",

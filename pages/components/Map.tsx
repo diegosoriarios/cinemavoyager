@@ -39,15 +39,15 @@ const Map = ({ selected, setSelected }: MapProps) => {
                     }}
                     style={{
                       default: {
-                        fill: selected.id === geo.id ? "#F53" : "#D6D6DA",
+                        fill: selected.id === geo.id ? "rgb(59, 130, 246)" : "#D6D6DA",
                         outline: "none"
                       },
                       hover: {
-                        fill: "#F53",
+                        fill: "rgb(59, 130, 246)",
                         outline: "none"
                       },
                       pressed: {
-                        fill: "#E42",
+                        fill: "rgb(59, 130, 246)",
                         outline: "none"
                       },
                     }}

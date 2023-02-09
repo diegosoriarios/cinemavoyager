@@ -13,7 +13,7 @@
  * 	Usage is given below..
  **/
 
-const countriesFlags = {
+export const countriesFlags = {
   Afghanistan: {
     mini: "http://flags.fmcdn.net/data/flags/mini/af.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/af.png",
@@ -34,7 +34,7 @@ const countriesFlags = {
     mini: "http://flags.fmcdn.net/data/flags/mini/ao.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/ao.png",
   },
-  Antigua: {
+  "Antigua and Barbuda": {
     alias: "Antigua and Barbuda",
     mini: "http://flags.fmcdn.net/data/flags/mini/ag.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/ag.png",
@@ -99,7 +99,7 @@ const countriesFlags = {
     mini: "http://flags.fmcdn.net/data/flags/mini/bo.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/bo.png",
   },
-  Bosnia: {
+  "Bosnia and Herzegovina": {
     alias: "Bosnia and Herzegovina",
     mini: "http://flags.fmcdn.net/data/flags/mini/ba.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/ba.png",
@@ -120,7 +120,7 @@ const countriesFlags = {
     mini: "http://flags.fmcdn.net/data/flags/mini/bg.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/bg.png",
   },
-  Burkina: {
+  "Burkina Faso": {
     alias: "Burkina Faso",
     mini: "http://flags.fmcdn.net/data/flags/mini/bf.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/bf.png",
@@ -141,12 +141,12 @@ const countriesFlags = {
     mini: "http://flags.fmcdn.net/data/flags/mini/ca.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/ca.png",
   },
-  Verde: {
+  "Cape Verde": {
     alias: "Cape Verde",
     mini: "http://flags.fmcdn.net/data/flags/mini/cv.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/cv.png",
   },
-  CAR: {
+  "Central African Republic": {
     alias: "Central African Republic",
     mini: "http://flags.fmcdn.net/data/flags/mini/cf.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/cf.png",
@@ -167,17 +167,17 @@ const countriesFlags = {
     mini: "http://flags.fmcdn.net/data/flags/mini/km.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/km.png",
   },
-  Cook: {
+  "Cook Islands": {
     alias: "Cook Islands",
     mini: "http://flags.fmcdn.net/data/flags/mini/ck.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/ck.png",
   },
-  CostaRica: {
+  "Costa Rica": {
     alias: "Costa Rica",
     mini: "http://flags.fmcdn.net/data/flags/mini/cr.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/cr.png",
   },
-  Ivoire: {
+  "Cote d'Ivoire": {
     alias: "Cote d'Ivoire",
     mini: "http://flags.fmcdn.net/data/flags/mini/ci.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/ci.png",
@@ -199,7 +199,7 @@ const countriesFlags = {
     mini: "http://flags.fmcdn.net/data/flags/mini/cz.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/cz.png",
   },
-  DRC: {
+  "Democratic Republic of Congo": {
     alias: "Democratic Republic of the Congo",
     mini: "http://flags.fmcdn.net/data/flags/mini/cd.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/cd.png",
@@ -216,12 +216,12 @@ const countriesFlags = {
     mini: "http://flags.fmcdn.net/data/flags/mini/dm.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/dm.png",
   },
-  DR: {
+  "Dominican Republic": {
     alias: "Dominican Republic",
     mini: "http://flags.fmcdn.net/data/flags/mini/do.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/do.png",
   },
-  Timor: {
+  "East Timor": {
     alias: "East Timor",
     mini: "http://flags.fmcdn.net/data/flags/mini/tl.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/tl.png",
@@ -234,12 +234,12 @@ const countriesFlags = {
     mini: "http://flags.fmcdn.net/data/flags/mini/eg.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/eg.png",
   },
-  Salvador: {
+  "El Salvador": {
     alias: "El Salvador",
     mini: "http://flags.fmcdn.net/data/flags/mini/sv.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/sv.png",
   },
-  EGuinea: {
+  "Equatorial Guinea": {
     alias: "Equatorial Guinea",
     mini: "http://flags.fmcdn.net/data/flags/mini/gq.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/gq.png",
@@ -304,7 +304,7 @@ const countriesFlags = {
     mini: "http://flags.fmcdn.net/data/flags/mini/gn.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/gn.png",
   },
-  GuineaB: {
+  "Guinea-Bissau": {
     alias: "Guinea-Bissau",
     mini: "http://flags.fmcdn.net/data/flags/mini/gw.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/gw.png",
@@ -457,7 +457,7 @@ const countriesFlags = {
     mini: "http://flags.fmcdn.net/data/flags/mini/mt.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/mt.png",
   },
-  Marshall: {
+  "Marshall Islands": {
     alias: "Marshall Islands",
     mini: "http://flags.fmcdn.net/data/flags/mini/mh.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/mh.png",
@@ -522,7 +522,7 @@ const countriesFlags = {
     mini: "http://flags.fmcdn.net/data/flags/mini/nl.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/nl.png",
   },
-  NZ: {
+  "New Zealand": {
     alias: "New Zealand",
     mini: "http://flags.fmcdn.net/data/flags/mini/nz.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/nz.png",
@@ -543,7 +543,7 @@ const countriesFlags = {
     mini: "http://flags.fmcdn.net/data/flags/mini/nu.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/nu.png",
   },
-  NKorea: {
+  "North Korea": {
     alias: "North Korea",
     mini: "http://flags.fmcdn.net/data/flags/mini/kp.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/kp.png",
@@ -568,7 +568,7 @@ const countriesFlags = {
     mini: "http://flags.fmcdn.net/data/flags/mini/pa.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/pa.png",
   },
-  PGuinea: {
+  "Papua new Guinea": {
     alias: "Papua new Guinea",
     mini: "http://flags.fmcdn.net/data/flags/mini/pg.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/pg.png",
@@ -606,7 +606,7 @@ const countriesFlags = {
     mini: "http://flags.fmcdn.net/data/flags/mini/tw.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/tw.png",
   },
-  RC: {
+  Congo: {
     alias: "Republic of Congo",
     mini: "http://flags.fmcdn.net/data/flags/mini/cg.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/cg.png",
@@ -623,17 +623,17 @@ const countriesFlags = {
     mini: "http://flags.fmcdn.net/data/flags/mini/rw.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/rw.png",
   },
-  SKN: {
+  "Saint Kitts and Nevis": {
     alias: "Saint Kitts and Nevis",
     mini: "http://flags.fmcdn.net/data/flags/mini/kn.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/kn.png",
   },
-  SL: {
+  "Saint Lucia": {
     alias: "Saint Lucia",
     mini: "http://flags.fmcdn.net/data/flags/mini/lc.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/lc.png",
   },
-  SVG: {
+  "Saint Vincent and the Grenadines": {
     alias: "Saint Vincent and the Grenadines",
     mini: "http://flags.fmcdn.net/data/flags/mini/vc.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/vc.png",
@@ -642,17 +642,17 @@ const countriesFlags = {
     mini: "http://flags.fmcdn.net/data/flags/mini/ws.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/ws.png",
   },
-  SM: {
+  "San Marino": {
     alias: "San Marino",
     mini: "http://flags.fmcdn.net/data/flags/mini/sm.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/sm.png",
   },
-  STP: {
+  "Sao Tome and Principe": {
     alias: "Sao Tome and Principe",
     mini: "http://flags.fmcdn.net/data/flags/mini/st.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/st.png",
   },
-  Arab: {
+  "Saudi Arabia": {
     alias: "Saudi Arabia",
     mini: "http://flags.fmcdn.net/data/flags/mini/sa.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/sa.png",
@@ -669,7 +669,7 @@ const countriesFlags = {
     mini: "http://flags.fmcdn.net/data/flags/mini/sc.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/sc.png",
   },
-  Sierra: {
+  "Sierra Leone": {
     alias: "Sierra Leone",
     mini: "http://flags.fmcdn.net/data/flags/mini/sl.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/sl.png",
@@ -695,17 +695,17 @@ const countriesFlags = {
     mini: "http://flags.fmcdn.net/data/flags/mini/so.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/so.png",
   },
-  RSA: {
+  "South Africa": {
     alias: "Republic of South Africa",
     mini: "http://flags.fmcdn.net/data/flags/mini/za.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/za.png",
   },
-  SKorea: {
+  "South Korea": {
     alias: "South Korea",
     mini: "http://flags.fmcdn.net/data/flags/mini/kr.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/kr.png",
   },
-  SSudan: {
+  "South Sudan": {
     alias: "South Sudan",
     mini: "http://flags.fmcdn.net/data/flags/mini/ss.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/ss.png",
@@ -714,7 +714,7 @@ const countriesFlags = {
     mini: "http://flags.fmcdn.net/data/flags/mini/es.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/es.png",
   },
-  Lanka: {
+  "Shri Lanka": {
     alias: "Shri Lanka",
     mini: "http://flags.fmcdn.net/data/flags/mini/lk.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/lk.png",
@@ -792,17 +792,17 @@ const countriesFlags = {
     mini: "http://flags.fmcdn.net/data/flags/mini/ua.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/ua.png",
   },
-  UAE: {
+  "United Arab Emirates": {
     alias: "United Arab Emirates",
     mini: "http://flags.fmcdn.net/data/flags/mini/ae.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/ae.png",
   },
-  UK: {
+  "United Kingdom": {
     alias: "United Kingdom",
     mini: "http://flags.fmcdn.net/data/flags/mini/gb.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/gb.png",
   },
-  USA: {
+  "United States": {
     alias: "United States",
     mini: "http://flags.fmcdn.net/data/flags/mini/us.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/us.png",
@@ -819,7 +819,7 @@ const countriesFlags = {
     mini: "http://flags.fmcdn.net/data/flags/mini/vu.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/vu.png",
   },
-  Vatican: {
+  "Vatican City": {
     alias: "Vatican City",
     mini: "http://flags.fmcdn.net/data/flags/mini/va.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/va.png",
@@ -832,7 +832,7 @@ const countriesFlags = {
     mini: "http://flags.fmcdn.net/data/flags/mini/vn.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/vn.png",
   },
-  Sahara: {
+  "Western Sahara": {
     alias: "Western Sahara",
     mini: "http://flags.fmcdn.net/data/flags/mini/eh.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/eh.png",
