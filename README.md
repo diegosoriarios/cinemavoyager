@@ -60,4 +60,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - [ ] Create integration with justwatch or watch mode
 - [ ] Allow to create an account to add to want to watch it
 - [ ] Create forgot password flux
-- [ ] Create login
+- [x] Create login

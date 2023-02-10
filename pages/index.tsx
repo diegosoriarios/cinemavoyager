@@ -2,18 +2,26 @@ import Head from "next/head";
 import { Inter } from "@next/font/google";
 import Map from "./components/Map";
 import styles from "@/styles/Home.module.css";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "react-tooltip/dist/react-tooltip.css";
 import { SelectedProps } from "./types/props";
 import { FaArrowRight } from "react-icons/fa";
 import Footer from "./components/Footer";
 import Navbar from "./components/NavBar";
 import { getFlagByCountryNameMini } from "./utils/flags";
+import api from "./utils/api";
+import { AuthContext } from "./context/Auth/context";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const [selected, setSelected] = useState<SelectedProps>({ name: "", id: "" });
+  const { checkLogin } = useContext(AuthContext);
+
+
+  useEffect(() => {
+    checkLogin();
+  }, []);
 
   return (
     <div className="overflow-hidden">

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useRouter } from "next/router";
 import Navbar from "../components/NavBar";
 import Footer from "../components/Footer";
@@ -8,6 +7,7 @@ import Pagination from "../components/Pagination";
 import Card from "../components/Card";
 import Image from "next/image";
 import { CardProps } from "../types/props";
+import api from "../utils/api";
 
 const CountryList = () => {
   const router = useRouter();
@@ -23,7 +23,7 @@ const CountryList = () => {
   const initialize = async () => {
     const {
       data: { movies: movie },
-    } = await axios.get("http://localhost:3000/api/movies");
+    } = await api.get("/movies");
     setMovies(movie);
   };
 

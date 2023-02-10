@@ -1,20 +1,19 @@
 import { useFormik } from "formik";
-import React from "react";
+import React, { useContext } from "react";
 import Navbar from "../components/NavBar";
+import { AuthContext } from "../context/Auth/context";
 
-type ProfileProps = {
-  name: "",
-  email: "",
-  avatar: "",
-  password: "",
-}
+const Profile = () => {
+  const { state, login } = useContext(AuthContext);
 
-const Profile = (user: ProfileProps) => {
+  const { user } = state;
+  console.log(state);
+
   const formik = useFormik({
     initialValues: {
-      name: user.name,
-      email: user.email,
-      avatar: user.avatar,
+      name: user?.name,
+      email: user?.email,
+      avatar: user?.avatar,
       password: "",
       confirmPassword: "",
     },
@@ -37,7 +36,7 @@ const Profile = (user: ProfileProps) => {
         <input
           type="name"
           id="name"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-400 dark:placeholder-gray-500 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-400 dark:placeholder-gray-500 dark:text-gray-700 dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="name"
           required
           value={formik.values.name}
@@ -48,7 +47,7 @@ const Profile = (user: ProfileProps) => {
         <input
           type="email"
           id="email"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-400 dark:placeholder-gray-500 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-400 dark:placeholder-gray-500 dark:text-gray-700 dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="email@flowbite.com"
           required
           value={formik.values.email}
@@ -61,7 +60,7 @@ const Profile = (user: ProfileProps) => {
           type="password"
           id="password"
           placeholder="change password"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-400 dark:placeholder-gray-500 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-400 dark:placeholder-gray-500 dark:text-gray-700 dark:focus:ring-blue-500 dark:focus:border-blue-500"
           value={formik.values.password}
           onChange={formik.handleChange}
         />
@@ -71,7 +70,7 @@ const Profile = (user: ProfileProps) => {
           type="confirmPassword"
           id="confirmPassword"
           placeholder="confirm change password"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-400 dark:placeholder-gray-500 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-400 dark:placeholder-gray-500 dark:text-gray-700 dark:focus:ring-blue-500 dark:focus:border-blue-500"
           required={!!formik.values.password}
           value={formik.values.confirmPassword}
           onChange={formik.handleChange}
