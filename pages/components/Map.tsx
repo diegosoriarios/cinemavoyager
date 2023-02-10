@@ -1,7 +1,7 @@
 import React from "react";
 import { ZoomableGroup, ComposableMap, Geographies, Geography } from "react-simple-maps";
 import features from "../../features.json";
-import { SelectedProps } from "../types/stateProps";
+import { SelectedProps } from "../types/props";
 
 const mapWidth = 1000;
 const mapHeight = 600;

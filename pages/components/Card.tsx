@@ -1,13 +1,7 @@
 
 import Link from "next/link";
 import React from "react";
-
-export type CardProps = {
-  name: string,
-  image: string,
-  genres: string[],
-  sinopsis: string
-}
+import { CardProps } from "../types/props";
 
 const Card = ({ name, image, genres, sinopsis }: CardProps) => {
   return (

@@ -1,15 +1,30 @@
 import { useFormik } from "formik";
 import Link from "next/link";
-import React from "react";
+import { Router, useRouter } from "next/router";
+import React, { useContext } from "react";
+import { AuthContext } from "../context/Auth/context";
 
 const Login = () => {
+  const router = useRouter();
+
+  const { state, login } = useContext(AuthContext);
+
+  const {
+    isLoginPending,
+    isLoggedIn,
+    isLoginError,
+  } = state;
+
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
     },
-    onSubmit: values => {
-      console.log(values);
+    onSubmit: async values => {
+      await login(values.email, values.password);
+      console.log(state);
+      if (isLoginError) return;
+      router.push('/')
     }
   });
 
@@ -55,7 +70,7 @@ const Login = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-start">
                   <div className="flex items-center h-5">
-                    <input id="remember" aria-describedby="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" required />
+                    <input id="remember" aria-describedby="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" />
                   </div>
                   <div className="ml-3 text-sm">
                     <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">Remember me</label>
@@ -68,6 +83,9 @@ const Login = () => {
                 Don’t have an account yet? <Link href="/createAccount" className="font-medium text-blue-600 hover:underline dark:text-blue-500">Sign up</Link>
               </p>
             </form>
+            { isLoginPending && <div className="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">Please wait...</div> }
+            { isLoggedIn && <div className="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">Success.</div> }
+            { isLoginError && <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">{isLoginError.message}</div> }
           </div>
         </div>
       </div>

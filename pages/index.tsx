@@ -4,7 +4,7 @@ import Map from "./components/Map";
 import styles from "@/styles/Home.module.css";
 import { useState } from "react";
 import "react-tooltip/dist/react-tooltip.css";
-import { SelectedProps } from "./types/stateProps";
+import { SelectedProps } from "./types/props";
 import { FaArrowRight } from "react-icons/fa";
 import Footer from "./components/Footer";
 import Navbar from "./components/NavBar";
