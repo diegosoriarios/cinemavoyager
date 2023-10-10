@@ -1,26 +1,48 @@
-import Head from "next/head";
 import { Inter } from "@next/font/google";
 import Map from "./components/Map";
 import styles from "@/styles/Home.module.css";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "react-tooltip/dist/react-tooltip.css";
 import { SelectedProps } from "./types/props";
 import { FaArrowRight } from "react-icons/fa";
-import Footer from "./components/Footer";
 import Navbar from "./components/NavBar";
 import { getFlagByCountryNameMini } from "./utils/flags";
-import api from "./utils/api";
-import { AuthContext } from "./context/Auth/context";
+import Link from "next/link";
+import { wrapper } from "./stores/store";
+import { setIsLoggedIn } from "./stores/authSlice";
 
 const inter = Inter({ subsets: ["latin"] });
 
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) =>
+    async ({ params }) => {
+      await store.dispatch(setIsLoggedIn(false)); 
+      console.log("State on server", store.getState());
+      return {
+        props: {
+          isLoggedIn: false,
+        },
+      };
+    }
+);
+
 export default function Home() {
   const [selected, setSelected] = useState<SelectedProps>({ name: "", id: "" });
-  const { checkLogin } = useContext(AuthContext);
 
+  const checkDarkMode = () => {
+    if (
+      localStorage.getItem("color-theme") === "dark" ||
+      (!("color-theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  };
 
   useEffect(() => {
-    checkLogin();
+    checkDarkMode();
   }, []);
 
   return (
@@ -29,23 +51,20 @@ export default function Home() {
       <main className={styles.main}>
         <Map selected={selected} setSelected={setSelected} />
       </main>
-      <footer
-        className="flex flex-row justify-between align-center z-10 dark:bg-gray-900 absolute bottom-0 w-full min-w-full h-24 p-6"
-      
-      >
+      <footer className="flex flex-row justify-between align-center z-10 dark:bg-gray-900 absolute bottom-0 w-full min-w-full h-24 p-6">
         {selected.name && (
           <>
-            <div className="flex align-centerflex-row w-60">
-              <p className="min-w-fit mr-4">{selected.name}</p>
+            <div className="flex align-center flex-row w-60">
+              <p className="min-w-fit mr-4 dark:text-white text-black">{selected.name}</p>
               <img
                 className="h-7"
                 src={getFlagByCountryNameMini(selected.name)}
                 alt={selected.id}
               />
             </div>
-            <a href={`/${selected.name}`}>
-              <FaArrowRight />
-            </a>
+            <Link href={{ pathname: `/${selected.name}`, query: { country: selected.id }}}>
+              <FaArrowRight className="dark:text-white text-black" />
+            </Link>
           </>
         )}
       </footer>

@@ -4,9 +4,10 @@ export type SelectedProps = {
 }
 
 export type CardProps = {
-  id: string,
-  name: string,
-  image: string,
-  genres: string[],
+  id: string
+  name: string
+  image: string
+  genres: string
   sinopsis: string
+  country: string
 }

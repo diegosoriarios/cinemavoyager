@@ -2,6 +2,8 @@ import React from "react";
 import { ZoomableGroup, ComposableMap, Geographies, Geography } from "react-simple-maps";
 import features from "../../features.json";
 import { SelectedProps } from "../types/props";
+import { useSelector } from "react-redux";
+import { selectTheme } from "../stores/themeSlice";
 
 const mapWidth = 1000;
 const mapHeight = 600;
@@ -12,8 +14,10 @@ type MapProps = {
 }
 
 const Map = ({ selected, setSelected }: MapProps) => {
+  const theme = useSelector(selectTheme);
+
   return (
-    <div style={{ width: "100vw", height: "100vh", display: "flex", justifyContent: "center"}}>
+    <div style={{ backgroundColor: theme === "dark" ? "rgba(17,24,39, .8)" : "white",  width: "100vw", height: "100vh", display: "flex", justifyContent: "center"}}>
       <ComposableMap style={{ width: "100%" }} data-tip="" projectionConfig={{ scale: 200 }} >
         <ZoomableGroup
           center={[0, 900]}

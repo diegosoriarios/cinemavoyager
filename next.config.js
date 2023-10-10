@@ -8,6 +8,11 @@ const nextConfig = {
         hostname: 'flags.fmcdn.net',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'www.themoviedb.org',
+        port: '',
+      },
     ],
   },
 }

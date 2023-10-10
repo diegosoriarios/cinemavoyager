@@ -1,9 +1,17 @@
-import { useFormik } from 'formik';
+import { FormikValues, useFormik } from 'formik';
 import Link from 'next/link';
 import React from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
+import supabase from '../utils/supabase';
 
 const CreateAccount = () => {
+  const handleSubmit = async (values: FormikValues) => {
+    const { data, error } = await supabase.auth.signUp({
+      email: values.email,
+      password: values.password,
+    })
+  }
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -11,9 +19,7 @@ const CreateAccount = () => {
       confirmPassword: '',
       acceptTerms: false,
     },
-    onSubmit: values => {
-      console.log(values);
-    }
+    onSubmit: handleSubmit
   });
 
   return (
@@ -35,7 +41,7 @@ const CreateAccount = () => {
             Flowbite
           </a>
         </div>
-        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+        <div className="w-full bg-gray-300 rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Create and account

@@ -37,7 +37,7 @@ const genres = [
   { id: 28, name: ' Western' }
 ]
 
-const Multiselect = () => {
+const Multiselect = ({ handleChange }) => {
   const [selectedGenre, setSelectedPerson] = useState<GenreProp[]>([])
 
   const handleSelect = (item: GenreProp) => {
@@ -47,6 +47,7 @@ const Multiselect = () => {
     const newArray = [...selectedGenre];
     newArray.push(item);
     setSelectedPerson(newArray);
+    handleChange(newArray);
   }
 
   const handleRemove = (item: string) => {

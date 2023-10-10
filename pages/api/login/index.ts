@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { withIronSessionApiRoute } from "iron-session/next";
+import supabase from "../../utils/supabase";
 
 export type User = {
   email: string;
@@ -12,17 +13,8 @@ export type User = {
 export type UserLogin = {
   user: User | null;
   isLoggedIn: boolean;
+  error: string,
 }
-
-const users = [
-  {
-    email: "diegosoriarios@gmail.com",
-    password: "123",
-    name: "Diego",
-    id: "1",
-    avatar: "https://flowbite.com/docs/images/people/profile-picture-3.jpg",
-  }
-]
 
 export const ironOptions = {
   cookieName: "myapp_cookiename",
@@ -38,16 +30,21 @@ export default withIronSessionApiRoute(loginRoute, ironOptions)
 async function loginRoute(req: NextApiRequest, res: NextApiResponse<UserLogin>) {
   const { email, password } = await req.body;
 
-  const user = users.filter(user => {
-    if (user.email === email && user.password === password) return user;
-  });
+  console.log(email, password)
 
-  if (!user) return res.json({ error: "User not found" })
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  })
 
-  const sessionUser = { user: user[0], isLoggedIn: true } as UserLogin;
+  if (error) {
+    return res.status(401).json({ user: null, isLoggedIn: false, error: error.message});
+  }
+
+  const sessionUser = { user: data.user, isLoggedIn: true, error: null } as UserLogin;
   req.session.user = sessionUser;
 
   await req.session.save();
 
-  return res.json(sessionUser)
+  return res.status(200).json(sessionUser)
 }

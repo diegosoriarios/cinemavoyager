@@ -1,32 +1,16 @@
-import { Client } from "pg";
 import supabase from "../../utils/supabase";
 
 export default async function handler(req, res) {
-  // const client = new Client({
-  //   connectionString: process.env.DATABASE_URL,
-  //   application_name: "$ docs_quickstart_node"
-  // });
+  if (req.method === 'POST') {
+    // Process a POST request
+  } else if (req.method === 'GET') {
+    const { user } = req.query;
 
-  // CREATE the messages table
-  const createTableQuery =
-    "CREATE TABLE IF NOT EXISTS movies (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), name STRING, image STRING, sinopsis STRING, year STRING, genres ARRAY, country STRING)";
+    const { data } = await supabase.from('profiles').select().eq("id", user);
 
-  if (req.method === "POST") {
-    return;
-  } else if (req.method === "GET") {
-    const { country, page = 0 } = req.query;
-
-    const { data: movies } = await supabase
-      .from("movies")
-      .select()
-      .eq("country", country)
-      .range(page - 1, page + 10);
-
-    console.log(movies);
-
-    res.status(200).json({ movies });
-  } else if (req.method === "DELETE") {
-    return;
+    console.log(data);
+    
+    res.status(200).json({ profile: data[0] })
   }
 }
 /*
