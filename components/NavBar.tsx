@@ -56,7 +56,7 @@ const Navbar = () => {
           <Transition {...transitionProps}>
             <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-gray-300 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               {isLoggedIn && user ? (
-                <UserMenuItems user={user} onLogout={() => {}} />
+                <UserMenuItems user={user} />
               ) : (
                 <GuestMenuItems />
               )}

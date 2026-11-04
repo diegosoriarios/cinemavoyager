@@ -10,8 +10,6 @@ import { CardProps } from "@/types/props";
 import api from "@/utils/api";
 import EmptyState from "@/components/EmptyState";
 import Loading from "@/components/Loading";
-import { useSelector } from "react-redux";
-import { selectUser } from "@/stores/authSlice";
 import Link from "next/link";
 import { MdFavorite } from "react-icons/md";
 
@@ -20,7 +18,6 @@ const Bookmarks = () => {
   const [loading, setLoading] = useState(true);
   const [movies, setMovies] = useState<CardProps[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const user = useSelector(selectUser);
   const pageSize = 10;
 
   useEffect(() => {
@@ -28,11 +25,10 @@ const Bookmarks = () => {
   }, []);
 
   const initialize = async () => {
-    if (!user) return;
     try {
       const {
         data: { movies: movie },
-      } = await api.get<{ movies: CardProps[] }>("/bookmarks", { params: { userId: user.id } });
+      } = await api.get<{ movies: CardProps[] }>("/bookmarks");
       setMovies(movie);
     } catch (e) {
     } finally {

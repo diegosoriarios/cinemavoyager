@@ -12,10 +12,10 @@ const Profile = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: user?.full_name ?? "",
-      email: user?.email ?? "",
-      avatar: user?.avatar_url ?? "",
-      location: user?.location ?? "",
+      name: "",
+      email: "",
+      avatar: "",
+      location: "",
       password: "",
       confirmPassword: "",
     },
@@ -25,19 +25,17 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    getProfileData();
-  }, []);
-
-  const getProfileData = async () => {
+    if (!user) return;
     formik.setValues({
-      name: user?.full_name ?? "",
-      email: user?.email ?? "",
-      avatar: user?.avatar_url ?? "",
-      location: user?.location ?? "",
+      name: user.full_name ?? "",
+      email: user.email ?? "",
+      avatar: user.avatar_url ?? "",
+      location: user.location ?? "",
       password: "",
       confirmPassword: "",
     }, false);
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id, user?.full_name, user?.email, user?.avatar_url, user?.location]);
 
   return (
     <section className="bg-gray-300 dark:bg-gray-900">

@@ -1,26 +1,18 @@
 import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchLogin,
-  selectIsLoggedIn,
-  selectIsLoggedInError,
-  selectIsLoggedInPending,
-} from "@/stores/authSlice";
-import type { AppDispatch } from "@/stores/store";
+import { useState } from "react";
+import supabase from "@/utils/supabase-browser";
 import TextInput from "@/components/forms/TextInput";
 import SubmitButton from "@/components/forms/SubmitButton";
 
 const Login = () => {
   const router = useRouter();
+  const redirect =
+    typeof router.query.redirect === "string" ? router.query.redirect : "/";
 
-  const isLoggedIn = useSelector(selectIsLoggedIn);
-  const isLoginError = useSelector(selectIsLoggedInError);
-  const isLoginPending = useSelector(selectIsLoggedInPending);
-
-  const dispatch = useDispatch<AppDispatch>();
+  const [isPending, setIsPending] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const formik = useFormik({
     initialValues: {
@@ -28,14 +20,26 @@ const Login = () => {
       password: "",
     },
     onSubmit: async (values) => {
-      dispatch(fetchLogin({
+      setIsPending(true);
+      setErrorMessage(null);
+
+      const { error } = await supabase.auth.signInWithPassword({
         email: values.email,
-        password: values.password
-      }));
+        password: values.password,
+      });
 
-      if (isLoginError) return;
+      setIsPending(false);
 
-      router.push("/");
+      if (error) {
+        setErrorMessage(
+          error.message === "Invalid login credentials"
+            ? "Invalid email or password."
+            : error.message
+        );
+        return;
+      }
+
+      router.push(redirect);
     },
   });
 
@@ -107,7 +111,7 @@ const Login = () => {
                   Forgot password?
                 </Link>
               </div>
-              <SubmitButton>Sign in</SubmitButton>
+              <SubmitButton disabled={isPending}>Sign in</SubmitButton>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{" "}
                 <Link
@@ -118,7 +122,7 @@ const Login = () => {
                 </Link>
               </p>
             </form>
-            {isLoginPending && (
+            {isPending && (
               <div
                 className="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
                 role="alert"
@@ -126,20 +130,12 @@ const Login = () => {
                 Please wait...
               </div>
             )}
-            {isLoggedIn && (
-              <div
-                className="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
-                role="alert"
-              >
-                Success.
-              </div>
-            )}
-            {isLoginError && (
+            {errorMessage && (
               <div
                 className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                 role="alert"
               >
-                Invalid email or password.
+                {errorMessage}
               </div>
             )}
           </div>

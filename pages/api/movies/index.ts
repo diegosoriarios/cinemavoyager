@@ -1,4 +1,4 @@
-import supabase from "@/utils/supabase";
+import supabase from "@/utils/supabase-data";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -17,5 +17,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     res.status(200).json({ movies });
+    return;
   }
+
+  return res.status(405).json({ error: "Method not allowed" });
 }

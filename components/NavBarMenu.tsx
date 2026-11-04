@@ -10,10 +10,10 @@ import {
   MdSend,
 } from "react-icons/md";
 import type { ReactNode } from "react";
-import { logout } from "@/stores/authSlice";
 import { selectTheme, toggleTheme } from "@/stores/themeSlice";
 import type { AppDispatch } from "@/stores/store";
 import type { AuthUser } from "@/types/user";
+import supabase from "@/utils/supabase-browser";
 
 const itemBaseClasses =
   "group flex w-full items-center rounded-md px-2 py-2 text-sm";
@@ -111,18 +111,9 @@ const GuestMenuItems = () => (
   </>
 );
 
-const UserMenuItems = ({
-  user,
-  onLogout,
-}: {
-  user: AuthUser;
-  onLogout: () => void;
-}) => {
-  const dispatch = useDispatch<AppDispatch>();
-
-  const handleLogout = () => {
-    dispatch(logout(user.email ?? ""));
-    onLogout?.();
+const UserMenuItems = ({ user }: { user: AuthUser }) => {
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
   };
 
   return (

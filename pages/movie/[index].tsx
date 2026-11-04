@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "@/components/NavBar";
 import { getStreamingIcons } from "@/utils/streamings";
 import { useSelector } from "react-redux";
-import { selectLocation, selectUser } from "@/stores/authSlice";
+import { selectLocation } from "@/stores/authSlice";
 import Image from "next/image";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import api from "@/utils/api";
@@ -119,29 +119,27 @@ const MovieDetail = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const { id, name, image, sinopsis, genres, country } = router.query as CardProps;
   const location = useSelector(selectLocation);
-  const user = useSelector(selectUser);
 
   useEffect(() => {
     getIsFavorite();
   }, [])
 
   const getIsFavorite = async () => {
-    if (!user || !id) return;
+    if (!id) return;
     try {
       const {
         data: { isBookmarked: bookmarked },
-      } = await api.get<{ isBookmarked: boolean }>("/bookmarks", { params: { userId: user.id, movieId: id } });
+      } = await api.get<{ isBookmarked: boolean }>("/bookmarks", { params: { movieId: id } });
       setIsBookmarked(bookmarked);
     } catch (e) {}
   }
 
   const handleFavorite = async () => {
-    if (!user || !id) return;
-    saveOnDatabase(user.id, id);
-  }
-
-  const saveOnDatabase = async (userId: string, movieId: string) => {
-    await api.post("/movie", { userId, movieId });
+    if (!id) return;
+    try {
+      await api.post("/movie", { movieId: id });
+      setIsBookmarked(true);
+    } catch (e) {}
   }
 
   return (
@@ -153,8 +151,8 @@ const MovieDetail = () => {
             className="h-2/4 object-none"
             src={image}
             alt={name}
-            width={window.innerWidth * 0.3}
-            height={window.innerWidth * 0.3}
+            width={480}
+            height={720}
           />
         </div>
         <div className="w-6/12">

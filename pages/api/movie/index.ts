@@ -1,5 +1,5 @@
 import axios from "axios";
-import supabase from "@/utils/supabase";
+import createApiClient from "@/utils/supabase-server";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 // https://rapidapi.com/movie-of-the-night-movie-of-the-night-default/api/streaming-availability
@@ -33,26 +33,46 @@ async function getStreamList({ title, country = "us", show_type, output_language
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const supabase = createApiClient(req, res);
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
   if (req.method === "POST") {
-    const { userId, movieId } = req.body;
+    const { movieId } = req.body as { movieId?: string };
+
+    if (!movieId) {
+      return res.status(400).json({ error: "movieId is required" });
+    }
 
     const { error } = await supabase
       .from("saves")
-      .insert([{ user: userId, movie: movieId }]);
+      .insert([{ user: user.id, movie: movieId }]);
 
     if (error) {
       return res.status(500).json({ error });
     }
 
     return res.status(200).json({ saved: true });
-  } else if (req.method === "DELETE") {
-    const { userId, movieId } = req.body;
+  }
+
+  if (req.method === "DELETE") {
+    const { movieId } = req.body as { movieId?: string };
+
+    if (!movieId) {
+      return res.status(400).json({ error: "movieId is required" });
+    }
 
     const { error } = await supabase
       .from("saves")
       .delete()
       .eq("movie", movieId)
-      .eq("user", userId);
+      .eq("user", user.id);
 
     if (error) {
       return res.status(500).json({ error });
@@ -60,4 +80,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     return res.status(200).json({ removed: true });
   }
+
+  return res.status(405).json({ error: "Method not allowed" });
 }

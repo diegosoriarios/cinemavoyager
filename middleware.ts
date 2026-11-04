@@ -3,6 +3,13 @@ import { NextResponse } from 'next/server'
 
 import type { NextRequest } from 'next/server'
 
+const PROTECTED_ROUTES = [
+  '/profile',
+  '/bookmarks',
+  '/addNewMovie',
+  '/watchList',
+]
+
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({ request })
 
@@ -27,8 +34,21 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // Refreshes the auth token if expired; route protection is added later.
-  await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  const isProtected = PROTECTED_ROUTES.some((route) =>
+    request.nextUrl.pathname.startsWith(route)
+  )
+
+  if (isProtected && !user) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/login'
+    url.search = ''
+    url.searchParams.set('redirect', request.nextUrl.pathname)
+    return NextResponse.redirect(url)
+  }
 
   return response
 }
