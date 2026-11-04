@@ -28,15 +28,16 @@ const Card = ({ id, name, image, genres, sinopsis }: CardProps) => {
         </p>
       </div>
       <div className="px-6 pt-4 pb-2">
-        {genres.length &&
-          genres.split(",").map((genre, index) => (
-            <span
-              key={index}
-              className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-            >
-              {genre}
-            </span>
-          ))}
+        {genres
+          ? genres.split(",").map((genre, index) => (
+              <span
+                key={index}
+                className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+              >
+                {genre}
+              </span>
+            ))
+          : null}
       </div>
     </Link>
   );

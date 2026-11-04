@@ -15,22 +15,31 @@ import type { Movie } from "@/types/movie";
 const CountryList = () => {
   const router = useRouter();
   const { country, countries } = router.query;
+  const countryParam = typeof country === "string" ? country : undefined;
   const [loading, setLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
 
   useEffect(() => {
+    if (!countryParam) return;
     initialize();
-  }, []);
+  }, [countryParam, currentPage]);
 
   const initialize = async () => {
     try {
+      setLoading(true);
       const {
         data: { movies: movie },
-      } = await api.get<{ movies: Movie[] }>("/movies", { params: { country, page: currentPage } });
+      } = await api.get<{ movies: Movie[] }>("/movies", {
+        params: { country: countryParam, page: currentPage },
+      });
       setMovies(movie);
+      setHasError(false);
     } catch (e) {
+      setMovies([]);
+      setHasError(true);
     } finally {
       setLoading(false);
     }
@@ -53,7 +62,11 @@ const CountryList = () => {
       </h1>
       <div className="m-4">
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-center justify-center">
-          {movies.length ? (
+          {hasError ? (
+            <p className="m-8 col-span-full text-center text-red-600 dark:text-red-400">
+              Something went wrong while loading movies. Please try again.
+            </p>
+          ) : movies.length ? (
             movies?.map(({ id, name, image, genres, sinopsis }: CardProps) => (
               <Card
                 key={id}

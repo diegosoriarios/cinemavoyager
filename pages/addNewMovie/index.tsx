@@ -27,8 +27,8 @@ const AddNewMovieForm = () => {
       country: "",
       sinopsis: ""
     },
-    onSubmit: values => {
-      console.log(values);
+    onSubmit: () => {
+      // Wired to the movie suggestion submission in the next phase.
     }
   });
 

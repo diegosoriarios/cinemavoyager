@@ -16,6 +16,7 @@ import { MdFavorite } from "react-icons/md";
 const Bookmarks = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
   const [movies, setMovies] = useState<CardProps[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
@@ -30,7 +31,10 @@ const Bookmarks = () => {
         data: { movies: movie },
       } = await api.get<{ movies: CardProps[] }>("/bookmarks");
       setMovies(movie);
+      setHasError(false);
     } catch (e) {
+      setMovies([]);
+      setHasError(true);
     } finally {
       setLoading(false);
     }
@@ -49,7 +53,11 @@ const Bookmarks = () => {
         Bookmarks
       </h1>
       <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-center justify-center">
-        {movies?.length ? (
+        {hasError ? (
+          <p className="m-8 col-span-full text-center text-red-600 dark:text-red-400">
+            Something went wrong while loading your bookmarks. Please try again.
+          </p>
+        ) : movies?.length ? (
           movies?.map(
             ({ id, name, image, genres, sinopsis, country }: CardProps) => (
               <Card

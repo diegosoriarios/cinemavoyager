@@ -15,16 +15,16 @@ const Pagination = ({ items, pageSize, currentPage, onPageChange } : PaginationP
   const pages = Array.from({ length: pagesCount }, (_, i) => i + 1);
 
   return (
-    <nav aria-label="Page navigation example" className="m-4 flex items-center justify-center">
+    <nav aria-label="Page navigation" className="m-4 flex items-center justify-center">
       <ul className="inline-flex items-center -space-x-px justify-center">
         {currentPage > 1 ? (
           <li>
-            <a
-              href="#"
+            <button
+              type="button"
+              aria-label="Previous page"
               onClick={() => onPageChange(currentPage - 1)}
               className="block px-3 py-2 ml-0 leading-tight text-gray-500 bg-gray-300 border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
-              <span className="sr-only">Previous</span>
               <svg
                 aria-hidden="true"
                 className="w-5 h-5"
@@ -38,16 +38,14 @@ const Pagination = ({ items, pageSize, currentPage, onPageChange } : PaginationP
                   clipRule="evenodd"
                 />
               </svg>
-            </a>
+            </button>
           </li>
-        ) : (
-          <></>
-        )}
+        ) : null}
         {pages.map((page) => (
           <li key={page}>
-            <a
-              href="#"
-              aria-current="page"
+            <button
+              type="button"
+              aria-current={page === currentPage ? "page" : undefined}
               className={
                 page === currentPage
                   ? "z-10 px-3 py-2 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
@@ -56,17 +54,17 @@ const Pagination = ({ items, pageSize, currentPage, onPageChange } : PaginationP
               onClick={() => onPageChange(page)}
             >
               {page}
-            </a>
+            </button>
           </li>
         ))}
         {currentPage !== pagesCount ? (
           <li>
-            <a
-              href="#"
+            <button
+              type="button"
+              aria-label="Next page"
               onClick={() => onPageChange(currentPage + 1)}
               className="block px-3 py-2 leading-tight text-gray-500 bg-gray-300 border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
-              <span className="sr-only">Next</span>
               <svg
                 aria-hidden="true"
                 className="w-5 h-5"
@@ -80,11 +78,9 @@ const Pagination = ({ items, pageSize, currentPage, onPageChange } : PaginationP
                   clipRule="evenodd"
                 />
               </svg>
-            </a>
+            </button>
           </li>
-        ) : (
-          <></>
-        )}
+        ) : null}
       </ul>
     </nav>
   );

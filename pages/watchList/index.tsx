@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import Navbar from "@/components/NavBar";
 import Footer from "@/components/Footer";
-import { getFlagByCountryNameMini } from "@/utils/flags";
 import Pagination from "@/components/Pagination";
-import Card from "@/components/Card";
-import Image from "next/image";
 import BookmarkedCard from "@/components/BookmarkedCard";
 import api from "@/utils/api";
 import type { Movie } from "@/types/movie";
 
 const WatchList = () => {
-  const router = useRouter();
-  const { countries } = router.query;
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [hasError, setHasError] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
 
@@ -22,10 +17,16 @@ const WatchList = () => {
   }, []);
 
   const initialize = async () => {
-    const {
-      data: { movies: movie },
-    } = await api.get<{ movies: Movie[] }>("/movies");
-    setMovies(movie);
+    try {
+      const {
+        data: { movies: movie },
+      } = await api.get<{ movies: Movie[] }>("/movies");
+      setMovies(movie);
+      setHasError(false);
+    } catch (e) {
+      setMovies([]);
+      setHasError(true);
+    }
   };
 
   const onPageChange = (page: number) => {
@@ -39,7 +40,11 @@ const WatchList = () => {
         Watch List
       </h1>
       <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-center justify-center">
-        {movies.length ? (
+        {hasError ? (
+          <p className="m-8 col-span-full text-center text-red-600 dark:text-red-400">
+            Something went wrong while loading your watch list. Please try again.
+          </p>
+        ) : movies.length ? (
           movies?.map(({ id, name, image, genres, sinopsis }, index) =>
               <BookmarkedCard
                 key={index}

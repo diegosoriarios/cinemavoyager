@@ -13,8 +13,8 @@ const ForgotPassword = () => {
       confirmPassword: '',
       acceptTerms: false,
     },
-    onSubmit: values => {
-      console.log(values);
+    onSubmit: () => {
+      // Wired to the password reset flow in the next phase.
     }
   });
 

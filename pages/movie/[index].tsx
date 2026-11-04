@@ -117,6 +117,7 @@ const streamDetail = {
 const MovieDetail = () => {
   const router = useRouter();
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [favoriteError, setFavoriteError] = useState(false);
   const { id, name, image, sinopsis, genres, country } = router.query as CardProps;
   const location = useSelector(selectLocation);
 
@@ -131,15 +132,27 @@ const MovieDetail = () => {
         data: { isBookmarked: bookmarked },
       } = await api.get<{ isBookmarked: boolean }>("/bookmarks", { params: { movieId: id } });
       setIsBookmarked(bookmarked);
-    } catch (e) {}
+    } catch (e) {
+      // Not logged in or request failed; treat as not bookmarked.
+      setIsBookmarked(false);
+    }
   }
 
   const handleFavorite = async () => {
     if (!id) return;
+    setFavoriteError(false);
+    const wasBookmarked = isBookmarked;
+    setIsBookmarked(!wasBookmarked);
     try {
-      await api.post("/movie", { movieId: id });
-      setIsBookmarked(true);
-    } catch (e) {}
+      if (wasBookmarked) {
+        await api.delete("/movie", { data: { movieId: id } });
+      } else {
+        await api.post("/movie", { movieId: id });
+      }
+    } catch (e) {
+      setIsBookmarked(wasBookmarked);
+      setFavoriteError(true);
+    }
   }
 
   return (
@@ -175,16 +188,22 @@ const MovieDetail = () => {
             </div>
           </div>
           <div className="pt-4 pb-2">
-            {genres?.length &&
-              genres.split(",").map((genre, index) => (
-                <span
-                  key={index}
-                  className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-                >
-                  {genre}
-                </span>
-              ))}
+            {genres
+              ? genres.split(",").map((genre, index) => (
+                  <span
+                    key={index}
+                    className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+                  >
+                    {genre}
+                  </span>
+                ))
+              : null}
           </div>
+          {favoriteError && (
+            <p className="mb-3 text-sm text-red-600 dark:text-red-400" role="alert">
+              Could not update your bookmark. Please try again.
+            </p>
+          )}
           <div className="mb-3 font-light text-gray-500 dark:text-gray-400 first-letter:text-7xl first-letter:font-bold first-letter:text-gray-900 dark:first-letter:text-gray-100 first-letter:mr-3 first-letter:float-left">
             {sinopsis}
           </div>
@@ -192,7 +211,10 @@ const MovieDetail = () => {
           <iframe
             width="420"
             height="315"
-            src={streamDetail.youtubeTrailerVideoLink}
+            src={`https://www.youtube.com/embed/${streamDetail.youtubeTrailerVideoId}`}
+            title="Movie trailer"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
           ></iframe>
         </div>
       </div>
