@@ -25,6 +25,7 @@ const CountryList = () => {
   useEffect(() => {
     if (!countryParam) return;
     initialize();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countryParam, currentPage]);
 
   const initialize = async () => {

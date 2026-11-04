@@ -900,3 +900,19 @@ export const countriesFlags: Record<
 
 export const getFlagByCountryNameMini = (country: string) =>
   countriesFlags[country]?.mini || "";
+
+export const getCountryAlpha2ByName = (country: string) => {
+  const flag = countriesFlags[country]?.mini;
+
+  return flag?.match(/\/([a-z]{2})\.png$/)?.[1] || "";
+};
+
+export const getCountryNameByAlpha2 = (alpha2: string) => {
+  if (!alpha2) return "";
+
+  return (
+    Object.keys(countriesFlags).find((name) =>
+      countriesFlags[name].mini.endsWith(`/${alpha2}.png`)
+    ) || ""
+  );
+};

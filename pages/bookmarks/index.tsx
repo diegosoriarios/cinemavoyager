@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import Navbar from "@/components/NavBar";
 import Footer from "@/components/Footer";
-import { getFlagByCountryNameMini } from "@/utils/flags";
 import Pagination from "@/components/Pagination";
-import Card from "@/components/Card";
-import Image from "next/image";
+import BookmarkedCard from "@/components/BookmarkedCard";
 import { CardProps } from "@/types/props";
 import api from "@/utils/api";
-import EmptyState from "@/components/EmptyState";
 import Loading from "@/components/Loading";
 import Link from "next/link";
 import { MdFavorite } from "react-icons/md";
 
 const Bookmarks = () => {
-  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [movies, setMovies] = useState<CardProps[]>([]);
@@ -23,6 +18,7 @@ const Bookmarks = () => {
 
   useEffect(() => {
     initialize();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const initialize = async () => {
@@ -44,6 +40,11 @@ const Bookmarks = () => {
     setCurrentPage(page);
   };
 
+  const removeBookmark = async (id: string) => {
+    await api.delete("/movie", { data: { movieId: id } });
+    setMovies((previous) => previous.filter((movie) => movie.id !== id));
+  };
+
   if (loading) return <Loading />;
 
   return (
@@ -60,7 +61,7 @@ const Bookmarks = () => {
         ) : movies?.length ? (
           movies?.map(
             ({ id, name, image, genres, sinopsis, country }: CardProps) => (
-              <Card
+              <BookmarkedCard
                 key={id}
                 id={id}
                 name={name}
@@ -68,6 +69,7 @@ const Bookmarks = () => {
                 genres={genres}
                 sinopsis={sinopsis}
                 country={country}
+                onRemove={removeBookmark}
               />
             )
           )

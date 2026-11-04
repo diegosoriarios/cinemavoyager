@@ -26,5 +26,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return;
   }
 
+  if (req.method === "PATCH") {
+    const body = req.body ?? {};
+
+    const updates = {
+      id: user.id,
+      full_name: typeof body.full_name === "string" ? body.full_name : null,
+      avatar_url: typeof body.avatar_url === "string" ? body.avatar_url : null,
+      location: typeof body.location === "string" ? body.location : null,
+    };
+
+    const { error } = await supabase
+      .from("profiles")
+      .upsert(updates, { onConflict: "id" });
+
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+
+    return res.status(200).json({ updated: true });
+  }
+
   return res.status(405).json({ error: "Method not allowed" });
 }

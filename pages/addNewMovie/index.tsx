@@ -7,12 +7,13 @@ import TextInput from "@/components/forms/TextInput";
 import SubmitButton from "@/components/forms/SubmitButton";
 import { useFormik } from "formik";
 import { getCountryCodeByName } from "@/utils/country_code";
+import api from "@/utils/api";
 
 type AddNewMovieValues = {
   name: string;
   image: string;
   year: string;
-  genres: string[];
+  genres: string;
   country: string;
   sinopsis: string;
 };
@@ -23,25 +24,44 @@ const AddNewMovieForm = () => {
       name: "",
       image: "",
       year: "",
-      genres: [],
+      genres: "",
       country: "",
-      sinopsis: ""
+      sinopsis: "",
     },
-    onSubmit: () => {
-      // Wired to the movie suggestion submission in the next phase.
-    }
+    onSubmit: async (values, { setSubmitting, setStatus, resetForm }) => {
+      setStatus(undefined);
+
+      if (!values.country) {
+        setStatus("Please select the movie's country.");
+        setSubmitting(false);
+        return;
+      }
+
+      try {
+        await api.post("/movies", {
+          ...values,
+          year: values.year ? Number(values.year) : null,
+        });
+        resetForm();
+        setStatus("Thank you! Your movie suggestion was sent.");
+      } catch (e) {
+        setStatus("Could not send your suggestion. Please try again.");
+      } finally {
+        setSubmitting(false);
+      }
+    },
   });
 
   const handleChange = (genresArray: { name: string }[]) => {
-    const array = genresArray.map(({ name }) => name).toString();
-    formik.setFieldValue("genres", array)
-  }
+    const array = genresArray.map(({ name }) => name).join(",");
+    formik.setFieldValue("genres", array);
+  };
 
   const handleSelect = (value: string) => {
     const code = getCountryCodeByName(value);
 
     formik.setFieldValue("country", code);
-  }
+  };
 
   return (
     <div className="bg-gray-300 dark:bg-gray-900">
@@ -75,6 +95,7 @@ const AddNewMovieForm = () => {
           <TextInput
             label="Year"
             name="year"
+            type="number"
             placeholder="Release year"
             required
             value={formik.values.year}
@@ -100,12 +121,28 @@ const AddNewMovieForm = () => {
               rows={6}
               className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Add the sinopsis of the movie"
+              required
               value={formik.values.sinopsis}
               onChange={formik.handleChange}
             />
           </div>
-          <SubmitButton className="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-blue-700 sm:w-fit hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            Send movie request
+          {formik.status && (
+            <p
+              className={`text-sm ${
+                formik.status.startsWith("Thank you")
+                  ? "text-green-600 dark:text-green-400"
+                  : "text-red-600 dark:text-red-400"
+              }`}
+              role="status"
+            >
+              {formik.status}
+            </p>
+          )}
+          <SubmitButton
+            className="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-blue-700 sm:w-fit hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={formik.isSubmitting}
+          >
+            {formik.isSubmitting ? "Sending..." : "Send movie request"}
           </SubmitButton>
         </form>
       </div>

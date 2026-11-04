@@ -9,6 +9,7 @@ type TextInputProps = {
   type?: string;
   placeholder?: string;
   required?: boolean;
+  disabled?: boolean;
   value: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
@@ -19,6 +20,7 @@ export default function TextInput({
   type = "text",
   placeholder,
   required = false,
+  disabled = false,
   value,
   onChange,
 }: TextInputProps) {
@@ -34,9 +36,10 @@ export default function TextInput({
         type={type}
         name={name}
         id={name}
-        className={inputClasses}
+        className={`${inputClasses} disabled:opacity-60 disabled:cursor-not-allowed`}
         placeholder={placeholder}
         required={required}
+        disabled={disabled}
         value={value}
         onChange={onChange}
       />

@@ -4,10 +4,11 @@ import { countriesFlags, getFlagByCountryNameMini } from "@/utils/flags";
 
 type CountrySelectProps = {
   handleSelect?: (country: string) => void;
+  defaultValue?: string;
 };
 
-const CountrySelect = ({ handleSelect }: CountrySelectProps) => {
-  const [selectedPerson, changeSelected] = useState("");
+const CountrySelect = ({ handleSelect, defaultValue = "" }: CountrySelectProps) => {
+  const [selectedPerson, changeSelected] = useState(defaultValue);
 
   const setSelectedPerson = (value: string) => {
     changeSelected(value);

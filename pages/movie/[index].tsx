@@ -9,121 +9,62 @@ import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import api from "@/utils/api";
 import { CardProps } from "@/types/props";
 
-const streamDetail = {
-  id: 1,
-  streamingInfo: {
-    br: {
-      apple: [
-        {
-          type: "rent",
-          quality: "hd",
-          addOn: "",
-          link: "https://tv.apple.com/br/movie/bacurau/umc.cmc.ikfsyuxi1ocdzh6dps888y3u",
-          watchLink: "",
-          audios: [
-            {
-              language: "por",
-              region: "BRA",
-            },
-          ],
-          subtitles: null,
-          price: {
-            amount: "11.9",
-            currency: "BRL",
-            formatted: "11.9 BRL",
-          },
-          leaving: 0,
-          availableSince: 1653899031,
-        },
-        {
-          type: "buy",
-          quality: "hd",
-          addOn: "",
-          link: "https://tv.apple.com/br/movie/bacurau/umc.cmc.ikfsyuxi1ocdzh6dps888y3u",
-          watchLink: "",
-          audios: [
-            {
-              language: "por",
-              region: "BRA",
-            },
-          ],
-          subtitles: null,
-          price: {
-            amount: "22.9",
-            currency: "BRL",
-            formatted: "22.9 BRL",
-          },
-          leaving: 0,
-          availableSince: 1653899031,
-        },
-      ],
-    },
-  },
-  cast: [
-    "Bárbara Colen",
-    "Thomás Aquino",
-    "Silvero Pereira",
-    "Sônia Braga",
-    "Udo Kier",
-    "Thardelly Lima",
-    "Rubens Santos",
-  ],
-  year: 2019,
-  advisedMinimumAudienceAge: 17,
-  imdbId: "tt2762506",
-  imdbRating: 73,
-  imdbVoteCount: 28943,
-  tmdbId: 446159,
-  tmdbRating: 77,
-  originalTitle: "Bacurau",
-  backdropPath: "/8UcfX4Ru550l7PdPia4zPoowWnr.jpg",
-  backdropURLs: {
-    "300": "https://image.tmdb.org/t/p/w300/8UcfX4Ru550l7PdPia4zPoowWnr.jpg",
-    "780": "https://image.tmdb.org/t/p/w780/8UcfX4Ru550l7PdPia4zPoowWnr.jpg",
-    "1280": "https://image.tmdb.org/t/p/w1280/8UcfX4Ru550l7PdPia4zPoowWnr.jpg",
-    original:
-      "https://image.tmdb.org/t/p/original/8UcfX4Ru550l7PdPia4zPoowWnr.jpg",
-  },
-  genres: [
-    {
-      id: 28,
-      name: "Action",
-    },
-    {
-      id: 12,
-      name: "Adventure",
-    },
-  ],
-  originalLanguage: "pt",
-  countries: ["BR", "FR"],
-  directors: ["Kleber Mendonça Filho", "Juliano Dornelles"],
-  runtime: 131,
-  youtubeTrailerVideoId: "LKTejyk9ZIA",
-  youtubeTrailerVideoLink: "https://www.youtube.com/watch?v=LKTejyk9ZIA",
-  posterPath: "/tBa4zMGzZUco26XT3WfZZCwQ76i.jpg",
-  posterURLs: {
-    "92": "https://image.tmdb.org/t/p/w92/tBa4zMGzZUco26XT3WfZZCwQ76i.jpg",
-    "154": "https://image.tmdb.org/t/p/w154/tBa4zMGzZUco26XT3WfZZCwQ76i.jpg",
-    "185": "https://image.tmdb.org/t/p/w185/tBa4zMGzZUco26XT3WfZZCwQ76i.jpg",
-    "342": "https://image.tmdb.org/t/p/w342/tBa4zMGzZUco26XT3WfZZCwQ76i.jpg",
-    "500": "https://image.tmdb.org/t/p/w500/tBa4zMGzZUco26XT3WfZZCwQ76i.jpg",
-    "780": "https://image.tmdb.org/t/p/w780/tBa4zMGzZUco26XT3WfZZCwQ76i.jpg",
-    original:
-      "https://image.tmdb.org/t/p/original/tBa4zMGzZUco26XT3WfZZCwQ76i.jpg",
-  },
-  tagline: "",
+type StreamingOffer = {
+  type: string;
+  link: string;
+  price: { formatted: string } | null;
+};
+
+type StreamMovie = {
+  youtubeTrailerVideoId?: string;
+  streamingInfo?: Record<string, Record<string, StreamingOffer[]>>;
 };
 
 const MovieDetail = () => {
   const router = useRouter();
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [favoriteError, setFavoriteError] = useState(false);
-  const { id, name, image, sinopsis, genres, country } = router.query as CardProps;
+  const [streamMovie, setStreamMovie] = useState<StreamMovie | null>(null);
+  const [streamsLoading, setStreamsLoading] = useState(true);
+  const [streamsError, setStreamsError] = useState(false);
+  const { id, name, image, sinopsis, genres } = router.query as CardProps;
   const location = useSelector(selectLocation);
 
   useEffect(() => {
     getIsFavorite();
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!name) return;
+
+    let cancelled = false;
+
+    const fetchStreams = async () => {
+      setStreamsLoading(true);
+      setStreamsError(false);
+
+      try {
+        const { data } = await api.get<{ movie: StreamMovie | null }>("/movie", {
+          params: { title: name, country: location },
+        });
+        if (!cancelled) setStreamMovie(data.movie);
+      } catch (e) {
+        if (!cancelled) {
+          setStreamMovie(null);
+          setStreamsError(true);
+        }
+      } finally {
+        if (!cancelled) setStreamsLoading(false);
+      }
+    };
+
+    fetchStreams();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [name, location]);
 
   const getIsFavorite = async () => {
     if (!id) return;
@@ -136,7 +77,7 @@ const MovieDetail = () => {
       // Not logged in or request failed; treat as not bookmarked.
       setIsBookmarked(false);
     }
-  }
+  };
 
   const handleFavorite = async () => {
     if (!id) return;
@@ -153,7 +94,11 @@ const MovieDetail = () => {
       setIsBookmarked(wasBookmarked);
       setFavoriteError(true);
     }
-  }
+  };
+
+  const serviceEntries = Object.entries(
+    streamMovie?.streamingInfo?.[location] ?? {}
+  );
 
   return (
     <>
@@ -178,12 +123,9 @@ const MovieDetail = () => {
                 onClick={handleFavorite}
                 className="p-3 rounded-full 
                        bg-blue-500 hover:bg-red-500 text-white"
+                aria-label={isBookmarked ? "Remove from watch list" : "Add to watch list"}
               >
-                {
-                  isBookmarked ?
-                  <MdFavorite /> :
-                  <MdFavoriteBorder />
-                }
+                {isBookmarked ? <MdFavorite /> : <MdFavoriteBorder />}
               </button>
             </div>
           </div>
@@ -208,14 +150,16 @@ const MovieDetail = () => {
             {sinopsis}
           </div>
 
-          <iframe
-            width="420"
-            height="315"
-            src={`https://www.youtube.com/embed/${streamDetail.youtubeTrailerVideoId}`}
-            title="Movie trailer"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
+          {streamMovie?.youtubeTrailerVideoId && (
+            <iframe
+              width="420"
+              height="315"
+              src={`https://www.youtube.com/embed/${streamMovie.youtubeTrailerVideoId}`}
+              title={`${name} trailer`}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          )}
         </div>
       </div>
       <div className="pl-12 pt-2">
@@ -223,42 +167,50 @@ const MovieDetail = () => {
           Streaming Info
         </h3>
         <div>
-          {Object.entries(
-            (streamDetail.streamingInfo as Record<
-              string,
-              Record<string, { type: string; link: string; price: { formatted: string } | null }[]>
-            >)[location] ?? {}
-          ).map(([name, details]) => {
-            return (
-              <div key={name}>
-                <h3>{name}</h3>
+          {streamsLoading ? (
+            <p className="text-gray-500 dark:text-gray-400">
+              Loading streaming information...
+            </p>
+          ) : streamsError ? (
+            <p className="text-red-600 dark:text-red-400" role="alert">
+              Could not load streaming information right now.
+            </p>
+          ) : serviceEntries.length === 0 ? (
+            <p className="text-gray-500 dark:text-gray-400">
+              No streaming information available for this region.
+            </p>
+          ) : (
+            serviceEntries.map(([service, offers]) => (
+              <div key={service}>
+                <h3 className="capitalize">{service}</h3>
                 <div className="flex flex-row">
-                  {details.map((data) => {
-                    const icon = getStreamingIcons(name);
+                  {offers.map((offer) => {
+                    const icon = getStreamingIcons(service);
                     return (
                       <a
-                        key={data.link}
-                        href={data.link}
+                        key={`${service}-${offer.type}-${offer.link}`}
+                        href={offer.link}
                         target="_blank"
+                        rel="noreferrer"
                         className="flex flex-col"
                       >
-                        <p>{data.type}</p>
+                        <p>{offer.type}</p>
                         <img
                           src={icon.src}
-                          alt={name}
+                          alt={service}
                           style={{
                             width: icon.width * 0.5,
                             height: icon.height * 0.5,
                           }}
                         />
-                        <p>{data.price?.formatted}</p>
+                        <p>{offer.price?.formatted}</p>
                       </a>
                     );
                   })}
                 </div>
               </div>
-            );
-          })}
+            ))
+          )}
         </div>
       </div>
     </>
