@@ -68,7 +68,7 @@ const CountryList = () => {
               Something went wrong while loading movies. Please try again.
             </p>
           ) : movies.length ? (
-            movies?.map(({ id, name, image, genres, sinopsis }: CardProps) => (
+            movies?.map(({ id, name, image, genres, sinopsis, tmdb_id }: CardProps) => (
               <Card
                 key={id}
                 id={id}
@@ -76,6 +76,7 @@ const CountryList = () => {
                 image={image}
                 genres={genres}
                 sinopsis={sinopsis}
+                tmdb_id={tmdb_id}
               />
             ))
           ) : (

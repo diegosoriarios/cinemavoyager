@@ -6,5 +6,8 @@ export type Movie = {
   genres: string;
   sinopsis: string;
   country: string;
-  year?: string;
+  year?: string | number | null;
+  // Populated for movies seeded from TMDB; null for user submissions.
+  tmdb_id?: number | null;
+  rating?: number | null;
 };

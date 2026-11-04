@@ -60,7 +60,7 @@ const Bookmarks = () => {
           </p>
         ) : movies?.length ? (
           movies?.map(
-            ({ id, name, image, genres, sinopsis, country }: CardProps) => (
+            ({ id, name, image, genres, sinopsis, country, tmdb_id }: CardProps) => (
               <BookmarkedCard
                 key={id}
                 id={id}
@@ -69,6 +69,7 @@ const Bookmarks = () => {
                 genres={genres}
                 sinopsis={sinopsis}
                 country={country}
+                tmdb_id={tmdb_id}
                 onRemove={removeBookmark}
               />
             )

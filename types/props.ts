@@ -5,6 +5,7 @@ export type SelectedProps = {
   id: string
 }
 
-export type CardProps = Pick<Movie, "id" | "name" | "image" | "genres" | "sinopsis"> & {
+export type CardProps = Pick<Movie, "id" | "name" | "image" | "genres" | "sinopsis" | "tmdb_id"> & {
   country?: string
+  rating?: number | null
 }

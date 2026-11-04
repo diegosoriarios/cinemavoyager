@@ -3,12 +3,12 @@ import React from "react";
 import { CardProps } from "@/types/props";
 import Image from "next/image";
 
-const Card = ({ id, name, image, genres, sinopsis }: CardProps) => {
+const Card = ({ id, name, image, genres, sinopsis, tmdb_id }: CardProps) => {
   return (
     <Link
       href={{
         pathname: `/movie/${name}`,
-        query: { id, name, image, genres, sinopsis },
+        query: { id, name, image, genres, sinopsis, tmdb_id },
       }}
       className="bg-gray-900 dark:bg-gray-100 max-h-fit max-w-sm rounded overflow-hidden shadow-lg"
     >

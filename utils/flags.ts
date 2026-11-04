@@ -1,3 +1,5 @@
+import { getCountryCodeByName } from "./country_code";
+
 /**
  * 	All flags are thankfuly taken from http://flagpedia.net/
  * 	Flag lovers should definitely check it out..
@@ -915,4 +917,14 @@ export const getCountryNameByAlpha2 = (alpha2: string) => {
       countriesFlags[name].mini.endsWith(`/${alpha2}.png`)
     ) || ""
   );
+};
+
+export const getCountryAlpha2ByAlpha3 = (alpha3: string) => {
+  if (!alpha3) return "";
+
+  const name = Object.keys(countriesFlags).find(
+    (country) => getCountryCodeByName(country) === alpha3
+  );
+
+  return name ? getCountryAlpha2ByName(name) : "";
 };
