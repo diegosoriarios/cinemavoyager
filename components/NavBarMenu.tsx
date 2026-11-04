@@ -18,7 +18,7 @@ import supabase from "@/utils/supabase-browser";
 const itemBaseClasses =
   "group flex w-full items-center rounded-md px-2 py-2 text-sm";
 const itemActiveClasses = "bg-blue-500 text-white";
-const itemIdleClasses = "text-gray-900";
+const itemIdleClasses = "text-gray-900 dark:text-gray-100";
 
 type NavMenuItemProps = {
   href?: string;
@@ -119,10 +119,10 @@ const UserMenuItems = ({ user }: { user: AuthUser }) => {
   return (
     <>
       <div className="px-4 py-3">
-        <span className="block text-sm text-gray-900">
+        <span className="block text-sm text-gray-900 dark:text-gray-100">
           {user.full_name ?? user.email}
         </span>
-        <span className="block truncate text-sm font-medium text-gray-500">
+        <span className="block truncate text-sm font-medium text-gray-500 dark:text-gray-400">
           {user.email}
         </span>
       </div>

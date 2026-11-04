@@ -11,7 +11,7 @@ import Link from "next/link";
 const Map = dynamic(() => import("@/components/Map"), {
   ssr: false,
   loading: () => (
-    <div className="flex h-[70vh] items-center justify-center text-gray-500 dark:text-gray-400">
+    <div className="flex h-[70vh] w-full items-center justify-center text-gray-500 dark:text-gray-400">
       Loading map...
     </div>
   ),
@@ -23,14 +23,14 @@ export default function Home() {
   return (
     <div className="overflow-hidden">
       <Navbar />
-      <main className="flex min-h-screen flex-col items-center">
+      <main className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center">
         <Map selected={selected} setSelected={setSelected} />
       </main>
-      <footer className="flex flex-row justify-between align-center z-10 dark:bg-gray-900 absolute bottom-0 w-full min-w-full h-24 p-6">
+      <footer className="absolute bottom-0 z-10 flex h-20 w-full flex-row items-center justify-between border-t border-black/5 bg-gray-100/95 px-6 backdrop-blur dark:border-white/10 dark:bg-gray-950/95">
         {selected.name && (
           <>
-            <div className="flex align-center flex-row w-60">
-              <p className="min-w-fit mr-4 dark:text-white text-black">{selected.name}</p>
+            <div className="flex flex-row items-center w-60">
+              <p className="mr-4 min-w-fit text-gray-900 dark:text-gray-100">{selected.name}</p>
               <Image
                 className="h-7 w-auto"
                 src={getFlagByCountryNameMini(selected.name)}
@@ -41,7 +41,7 @@ export default function Home() {
               />
             </div>
             <Link href={{ pathname: `/${selected.name}`, query: { country: selected.id }}}>
-              <FaArrowRight className="dark:text-white text-black" />
+              <FaArrowRight className="text-gray-900 dark:text-gray-100" />
             </Link>
           </>
         )}

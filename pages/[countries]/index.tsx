@@ -53,18 +53,18 @@ const CountryList = () => {
   if (loading) return <Loading />;
 
   return (
-    <div className="dark:bg-gray-900 bg-gray-100">
+    <div className="min-h-screen">
       <Navbar />
-      <h1 className="m-8 justify-items-center flex items-center text-5xl font-extrabold dark:text-white text-black">
+      <h1 className="mx-auto mt-10 mb-6 flex max-w-6xl items-center px-4 text-4xl font-extrabold text-gray-900 dark:text-white">
         {countries}
-        <span className="h-4 aspect-video relative text-blue-800 justify-items-center items-center text-2xl font-semibold mr-2 px-2.5 py-0.5 rounded ml-2">
+        <span className="relative ml-3 flex h-7 aspect-video items-center text-blue-800">
           <Image fill src={getFlagByCountryNameMini(typeof countries === "string" ? countries : "")} alt="country" />
         </span>
       </h1>
-      <div className="m-4">
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-center justify-center">
+      <div className="mx-auto max-w-6xl px-4">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {hasError ? (
-            <p className="m-8 col-span-full text-center text-red-600 dark:text-red-400">
+            <p className="col-span-full text-center text-red-600 dark:text-red-400">
               Something went wrong while loading movies. Please try again.
             </p>
           ) : movies.length ? (
@@ -80,16 +80,20 @@ const CountryList = () => {
               />
             ))
           ) : (
-            <EmptyState />
+            <div className="col-span-full">
+              <EmptyState />
+            </div>
           )}
         </div>
       </div>
-      <Pagination
-        items={movies.length}
-        currentPage={currentPage}
-        pageSize={pageSize}
-        onPageChange={onPageChange}
-      />
+      <div className="mx-auto max-w-6xl">
+        <Pagination
+          items={movies.length}
+          currentPage={currentPage}
+          pageSize={pageSize}
+          onPageChange={onPageChange}
+        />
+      </div>
       <Footer />
     </div>
   );

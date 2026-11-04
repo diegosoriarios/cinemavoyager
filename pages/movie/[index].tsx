@@ -129,6 +129,10 @@ const MovieDetail = () => {
     streamMovie?.streamingInfo?.[location] ?? {}
   );
 
+  const offerTiles = serviceEntries.flatMap(([service, offers]) =>
+    offers.map((offer) => ({ service, offer }))
+  );
+
   const displayName = details?.title || name;
   const displaySinopsis = details?.overview || sinopsis;
   const displayGenres = details?.genres?.length
@@ -146,130 +150,160 @@ const MovieDetail = () => {
   return (
     <>
       <Navbar />
-      <div className="flex flex-row w-screen justify-around items-start mt-8">
-        <div>
-          <Image
-            className="h-2/4 object-none"
-            src={image || "/favicon.svg"}
-            alt={displayName}
-            width={480}
-            height={720}
-          />
-        </div>
-        <div className="w-6/12">
-          <div className="flex flex-row items-center">
-            <div className="text-5xl font-extrabold dark:text-white text-black">
-              {displayName}
-            </div>
-            {details?.rating != null && (
-              <span className="ml-4 rounded-full bg-yellow-400 px-3 py-1 text-lg font-bold text-black">
-                ★ {details.rating.toFixed(1)}
-              </span>
-            )}
-            <div className="p-10">
-              <button
-                onClick={handleFavorite}
-                className="p-3 rounded-full 
-                       bg-blue-500 hover:bg-red-500 text-white"
-                aria-label={isBookmarked ? "Remove from watch list" : "Add to watch list"}
-              >
-                {isBookmarked ? <MdFavorite /> : <MdFavoriteBorder />}
-              </button>
-            </div>
+      <div className="relative min-h-screen overflow-hidden">
+        {details?.backdropUrl && (
+          <div className="absolute inset-x-0 top-0 hidden h-[420px] w-full dark:block">
+            <Image
+              src={details.backdropUrl}
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover opacity-30"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-gray-950/40 via-gray-950/70 to-gray-950" />
           </div>
-          <div className="pt-4 pb-2">
-            {displayGenres.map((genre, index) => (
-              <span
-                key={index}
-                className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-              >
-                {genre}
-              </span>
-            ))}
-          </div>
-          {meta.length > 0 && (
-            <p className="mb-3 text-sm text-gray-600 dark:text-gray-400">
-              {meta.join(" · ")}
-            </p>
-          )}
-          {details?.cast?.length ? (
-            <p className="mb-3 text-sm text-gray-600 dark:text-gray-400">
-              <span className="font-semibold">Cast:</span>{" "}
-              {details.cast.join(", ")}
-            </p>
-          ) : null}
-          {favoriteError && (
-            <p className="mb-3 text-sm text-red-600 dark:text-red-400" role="alert">
-              Could not update your bookmark. Please try again.
-            </p>
-          )}
-          <div className="mb-3 font-light text-gray-500 dark:text-gray-400 first-letter:text-7xl first-letter:font-bold first-letter:text-gray-900 dark:first-letter:text-gray-100 first-letter:mr-3 first-letter:float-left">
-            {displaySinopsis}
-          </div>
+        )}
 
-          {trailerId && (
-            <iframe
-              width="420"
-              height="315"
-              src={`https://www.youtube.com/embed/${trailerId}`}
-              title={`${displayName} trailer`}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          )}
-        </div>
-      </div>
-      <div className="pl-12 pt-2">
-        <h3 className="text-5xl font-extrabold dark:text-white">
-          Streaming Info
-        </h3>
-        <div>
-          {streamsLoading ? (
-            <p className="text-gray-500 dark:text-gray-400">
-              Loading streaming information...
-            </p>
-          ) : streamsError ? (
-            <p className="text-red-600 dark:text-red-400" role="alert">
-              Could not load streaming information right now.
-            </p>
-          ) : serviceEntries.length === 0 ? (
-            <p className="text-gray-500 dark:text-gray-400">
-              No streaming information available for this region.
-            </p>
-          ) : (
-            serviceEntries.map(([service, offers]) => (
-              <div key={service}>
-                <h3 className="capitalize">{service}</h3>
-                <div className="flex flex-row">
-                  {offers.map((offer) => {
-                    const icon = getStreamingIcons(service);
-                    return (
-                      <a
-                        key={`${service}-${offer.type}-${offer.link}`}
-                        href={offer.link}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex flex-col"
-                      >
-                        <p>{offer.type}</p>
-                        <Image
-                          src={icon}
-                          alt={service}
-                          width={icon.width}
-                          height={icon.height}
-                          style={{
-                            width: icon.width * 0.5,
-                            height: icon.height * 0.5,
-                          }}
-                        />
-                        <p>{offer.price?.formatted}</p>
-                      </a>
-                    );
-                  })}
+        <div className="relative mx-auto max-w-6xl px-4 pb-16 pt-8 lg:pt-24">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[300px_1fr] lg:gap-12">
+            <div className="mx-auto w-full max-w-[300px]">
+              <div className="relative aspect-[2/3] w-full overflow-hidden rounded-2xl bg-gray-200 shadow-2xl ring-1 ring-black/5 dark:bg-gray-800 dark:ring-white/10">
+                <Image
+                  src={image || "/favicon.svg"}
+                  alt={displayName}
+                  fill
+                  sizes="300px"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex flex-wrap items-start gap-4">
+                <h1 className="text-3xl font-extrabold leading-tight text-gray-900 sm:text-4xl lg:text-5xl dark:text-white">
+                  {displayName}
+                </h1>
+                {details?.rating != null && (
+                  <span className="mt-1 inline-flex items-center rounded-full bg-amber-400 px-3 py-1 text-base font-bold text-black">
+                    ★ {details.rating.toFixed(1)}
+                  </span>
+                )}
+                <div className="ml-auto">
+                  <button
+                    onClick={handleFavorite}
+                    className={`rounded-full p-3 text-white shadow transition ${
+                      isBookmarked
+                        ? "bg-red-600 hover:bg-red-700"
+                        : "bg-gray-900/80 hover:bg-red-600 dark:bg-white/10 dark:hover:bg-red-600"
+                    }`}
+                    aria-label={isBookmarked ? "Remove from watch list" : "Add to watch list"}
+                  >
+                    {isBookmarked ? <MdFavorite /> : <MdFavoriteBorder />}
+                  </button>
                 </div>
               </div>
-            ))
-          )}
+
+              {meta.length > 0 && (
+                <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
+                  {meta.join(" · ")}
+                </p>
+              )}
+
+              {displayGenres.length > 0 && (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {displayGenres.map((genre, index) => (
+                    <span
+                      key={index}
+                      className="inline-block rounded-full bg-gray-200 px-3 py-1 text-xs font-medium text-gray-700 dark:bg-white/10 dark:text-gray-300"
+                    >
+                      {genre}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {details?.cast?.length ? (
+                <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+                  <span className="font-semibold text-gray-900 dark:text-gray-200">Cast:</span>{" "}
+                  {details.cast.join(", ")}
+                </p>
+              ) : null}
+
+              {favoriteError && (
+                <p className="mt-3 text-sm text-red-600 dark:text-red-400" role="alert">
+                  Could not update your bookmark. Please try again.
+                </p>
+              )}
+
+              <p className="mt-5 max-w-2xl leading-relaxed text-gray-700 dark:text-gray-300">
+                {displaySinopsis}
+              </p>
+
+              {trailerId && (
+                <div className="mt-6 aspect-video w-full max-w-2xl overflow-hidden rounded-xl ring-1 ring-black/10 dark:ring-white/10">
+                  <iframe
+                    className="h-full w-full"
+                    src={`https://www.youtube.com/embed/${trailerId}`}
+                    title={`${displayName} trailer`}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <section className="mt-14">
+            <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">
+              Where to watch
+            </h2>
+            {streamsLoading ? (
+              <p className="text-gray-500 dark:text-gray-400">
+                Loading streaming information...
+              </p>
+            ) : streamsError ? (
+              <p className="text-red-600 dark:text-red-400" role="alert">
+                Could not load streaming information right now.
+              </p>
+            ) : offerTiles.length === 0 ? (
+              <p className="text-gray-500 dark:text-gray-400">
+                No streaming information available for this region.
+              </p>
+            ) : (
+              <div className="flex flex-wrap gap-3">
+                {offerTiles.map(({ service, offer }) => {
+                  const icon = getStreamingIcons(service);
+                  return (
+                    <a
+                      key={`${service}-${offer.type}-${offer.link}`}
+                      href={offer.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-3 rounded-xl bg-white p-3 pr-5 shadow ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-md dark:bg-gray-900 dark:ring-white/10"
+                    >
+                      <Image
+                        src={icon}
+                        alt={service}
+                        width={icon.width}
+                        height={icon.height}
+                        className="h-10 w-auto"
+                      />
+                      <div>
+                        <p className="text-sm font-semibold capitalize text-gray-900 dark:text-white">
+                          {service}
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                          {offer.type}
+                          {offer.price?.formatted ? ` · ${offer.price.formatted}` : ""}
+                        </p>
+                      </div>
+                    </a>
+                  );
+                })}
+              </div>
+            )}
+          </section>
         </div>
       </div>
     </>

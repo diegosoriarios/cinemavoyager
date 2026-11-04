@@ -26,10 +26,10 @@ const Navbar = () => {
   const user = useSelector(selectUser);
 
   return (
-    <nav className="flex flex-row justify-between bg-gray-300 border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
+    <nav className="sticky top-0 z-40 flex flex-row items-center justify-between border-b border-black/5 bg-white/90 px-2 py-2.5 backdrop-blur sm:px-4 dark:border-white/10 dark:bg-gray-950/80">
       <Link href="/" className="flex items-center">
         <Logo className="h-6 w-6 mr-3 sm:h-9 sm:w-9" />
-        <span className="self-center text-xl font-semibold whitespace-nowrap text-black dark:text-white">
+        <span className="self-center text-xl font-semibold whitespace-nowrap text-gray-900 dark:text-white">
           {SITE_NAME}
         </span>
       </Link>
@@ -55,7 +55,7 @@ const Navbar = () => {
             </Menu.Button>
           </div>
           <Transition {...transitionProps}>
-            <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-gray-300 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:divide-white/10 dark:bg-gray-900 dark:ring-white/10">
               {isLoggedIn && user ? (
                 <UserMenuItems user={user} />
               ) : (

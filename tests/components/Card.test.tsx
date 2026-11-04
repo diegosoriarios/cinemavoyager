@@ -18,11 +18,10 @@ describe("Card", () => {
     expect(screen.getByText("City of God")).toBeInTheDocument();
   });
 
-  it("truncates long sinopsis over 100 chars", () => {
+  it("clamps long sinopsis to three lines", () => {
     render(<Card {...mockMovie} />);
     const text = screen.getByText(/Two boys growing up/);
-    expect(text.textContent).toContain("...");
-    expect(text.textContent!.length).toBeLessThanOrEqual(101);
+    expect(text).toHaveClass("line-clamp-3");
   });
 
   it("renders genre chips", () => {

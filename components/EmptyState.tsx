@@ -4,7 +4,7 @@ import { MdOutlineMovie } from "react-icons/md";
 
 export default function EmptyState() {
   return (
-    <section className="dark:bg-gray-900 bg-gray-100 py-4 bg-neutral-50 overflow-hidden">
+    <section className="overflow-hidden rounded-xl border border-dashed border-gray-300 bg-white/60 py-10 dark:border-white/10 dark:bg-gray-900/60">
       <div className="container px-4 mx-auto">
         <MdOutlineMovie
           className="mx-auto mb-4 text-gray-400 dark:text-gray-500"
@@ -12,10 +12,10 @@ export default function EmptyState() {
           aria-hidden="true"
         />
         <div className="max-w-md mx-auto text-center">
-          <h2 className="font-heading mb-3 text-2xl font-semibold">
+          <h2 className="font-heading mb-3 text-2xl font-semibold text-gray-900 dark:text-white">
             It&rsquo;s a bit empty here
           </h2>
-          <p className="mb-7 text-neutral-500">
+          <p className="mb-7 text-gray-500 dark:text-gray-400">
             If you have any movie to recommend from this country send it to us.
           </p>
           <Link

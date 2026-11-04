@@ -64,7 +64,7 @@ const AddNewMovieForm = () => {
   };
 
   return (
-    <div className="bg-gray-300 dark:bg-gray-900">
+    <div className="bg-gray-100 dark:bg-gray-950">
       <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
         <Link href="/">
           <FaArrowLeft />

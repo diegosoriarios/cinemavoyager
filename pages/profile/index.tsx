@@ -80,7 +80,7 @@ const Profile = () => {
   }, [user?.id, user?.full_name, user?.email, user?.avatar_url, user?.location]);
 
   return (
-    <section className="bg-gray-300 dark:bg-gray-900">
+    <section className="bg-gray-100 dark:bg-gray-950">
       <Navbar />
       <form
         className="flex flex-col py-8 mx-auto md:h-screen lg:py-0 rounded-lg md:mt-0 sm:max-w-md xl:p-0"
@@ -134,7 +134,7 @@ const Profile = () => {
             }
           />
         </div>
-        <span className="w-full my-6 h-px bg-gray-300 lg:w-full"></span>
+        <span className="w-full my-6 h-px bg-gray-300 dark:bg-white/10 lg:w-full"></span>
         <div className="mb-6">
           <TextInput
             label="New password (optional)"

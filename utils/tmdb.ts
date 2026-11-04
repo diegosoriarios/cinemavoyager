@@ -2,6 +2,7 @@ import type { Movie } from "@/types/movie";
 
 const TMDB_BASE_URL = "https://api.themoviedb.org/3";
 const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
+const TMDB_BACKDROP_BASE = "https://image.tmdb.org/t/p/w1280";
 
 type TmdbGenre = { id: number; name: string };
 
@@ -24,6 +25,7 @@ type TmdbMovieDetailsResponse = {
   vote_average?: number;
   runtime?: number | null;
   release_date?: string;
+  backdrop_path?: string | null;
   genres?: TmdbGenre[];
   videos?: {
     results: { site: string; type: string; key: string }[];
@@ -44,6 +46,7 @@ export type MovieDetails = {
   directors: string[];
   cast: string[];
   trailerId: string | null;
+  backdropUrl: string | null;
 };
 
 type TmdbParams = Record<string, string | number>;
@@ -183,5 +186,6 @@ export const getMovieDetails = async (tmdbId: number): Promise<MovieDetails> => 
       .map((member) => member.name),
     cast: (data.credits?.cast ?? []).slice(0, 6).map((member) => member.name),
     trailerId: trailer?.key ?? null,
+    backdropUrl: data.backdrop_path ? `${TMDB_BACKDROP_BASE}${data.backdrop_path}` : null,
   };
 };
