@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Navbar from "../components/NavBar";
-import Footer from "../components/Footer";
+import Navbar from "@/components/NavBar";
+import Footer from "@/components/Footer";
 import { getFlagByCountryNameMini } from "@/utils/flags";
-import Pagination from "../components/Pagination";
-import Card from "../components/Card";
+import Pagination from "@/components/Pagination";
+import Card from "@/components/Card";
 import Image from "next/image";
 import { CardProps } from "@/types/props";
 import api from "@/utils/api";
-import EmptyState from "../components/EmptyState";
-import Loading from "../components/Loading";
+import EmptyState from "@/components/EmptyState";
+import Loading from "@/components/Loading";
+import type { Movie } from "@/types/movie";
 
 const CountryList = () => {
   const router = useRouter();
   const { country, countries } = router.query;
   const [loading, setLoading] = useState(true);
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
 
@@ -27,7 +28,7 @@ const CountryList = () => {
     try {
       const {
         data: { movies: movie },
-      } = await api.get("/movies", { params: { country, page: currentPage } });
+      } = await api.get<{ movies: Movie[] }>("/movies", { params: { country, page: currentPage } });
       setMovies(movie);
     } catch (e) {
     } finally {

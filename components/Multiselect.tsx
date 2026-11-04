@@ -55,10 +55,9 @@ const Multiselect = ({ handleChange }: MultiselectProps) => {
   }
 
   const handleRemove = (item: string) => {
-    console.log(selectedGenre);
     const newArray = selectedGenre.filter(genre => genre.name !== item);
-    console.log(newArray);
     setSelectedPerson(newArray);
+    handleChange(newArray);
   }
 
   return (

@@ -1,11 +1,10 @@
 import { Inter } from "next/font/google";
-import Map from "./components/Map";
-import styles from "@/styles/Home.module.css";
+import Map from "@/components/Map";
 import { useEffect, useState } from "react";
 import "react-tooltip/dist/react-tooltip.css";
 import { SelectedProps } from "@/types/props";
 import { FaArrowRight } from "react-icons/fa";
-import Navbar from "./components/NavBar";
+import Navbar from "@/components/NavBar";
 import { getFlagByCountryNameMini } from "@/utils/flags";
 import Link from "next/link";
 import { wrapper } from "@/stores/store";
@@ -48,7 +47,7 @@ export default function Home() {
   return (
     <div className="overflow-hidden">
       <Navbar />
-      <main className={styles.main}>
+      <main className="flex min-h-screen flex-col items-center">
         <Map selected={selected} setSelected={setSelected} />
       </main>
       <footer className="flex flex-row justify-between align-center z-10 dark:bg-gray-900 absolute bottom-0 w-full min-w-full h-24 p-6">

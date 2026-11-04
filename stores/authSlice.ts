@@ -1,17 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { AppState } from "./store";
 import { HYDRATE } from "next-redux-wrapper";
-import api from "../utils/api";
+import type { User } from "@supabase/supabase-js";
+import api from "@/utils/api";
+import type { AppState } from "./store";
+import type { AuthUser, Profile } from "@/types/user";
 
 export interface AuthState {
-  isLoggedIn: Boolean,
-  isLoginPending: Boolean,
-  loginError: Boolean | null,
-  location: string,
-  user: any,
+  isLoggedIn: boolean;
+  isLoginPending: boolean;
+  loginError: boolean | null;
+  location: string;
+  user: AuthUser | null;
 }
 
-const initialState : AuthState = {
+const initialState: AuthState = {
   isLoggedIn: false,
   isLoginPending: false,
   loginError: null,
@@ -19,50 +21,57 @@ const initialState : AuthState = {
   user: null,
 };
 
+type FetchLoginPayload = { email: string; password: string };
+
+type FetchLoginResult = {
+  error: string | null;
+  isLoggedIn: boolean;
+  user: AuthUser;
+} | null;
+
 export const fetchLogin = createAsyncThunk(
   'auth/fetchLogin',
-  async (payload: { email: string; password: string }, next) => {
+  async (payload: FetchLoginPayload): Promise<FetchLoginResult> => {
     try {
-      const { data } = await api.post(
-        "/login",
-        {
-          email: payload.email,
-          password: payload.password,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      const { data } = await api.post<{
+        user: User;
+        isLoggedIn: boolean;
+        error: string | null;
+      }>("/login", {
+        email: payload.email,
+        password: payload.password,
+      });
 
       const {
         data: { profile },
-      } = await api.get("/profile", { params: { user: data.user.id } });
-  
-      const initialValues = {
-        name: profile.full_name,
-        avatar_url: profile.avatar_url,
-        location: profile.location,
+      } = await api.get<{ profile: Profile | null }>("/profile", {
+        params: { user: data.user.id },
+      });
+
+      const profileValues = {
+        full_name: profile?.full_name ?? undefined,
+        avatar_url: profile?.avatar_url ?? undefined,
+        location: profile?.location ?? undefined,
       }
 
-      const value = {
+      return {
         error: data.error,
         isLoggedIn: data.isLoggedIn,
         user: {
           ...data.user,
-          ...initialValues,
-        }
+          ...profileValues,
+        },
       }
-
-      return value;
     } catch (e) {
       return null;
     }
   }
 )
+
 export const logout = createAsyncThunk(
   'auth/logout',
   async (email: string) => {
-    const { data } = await api.post(
+    const { data } = await api.post<{ isLoggedIn: boolean }>(
       "/login/logout",
       { email },
       {
@@ -79,13 +88,17 @@ export const logout = createAsyncThunk(
 export const checkLogin = createAsyncThunk(
   'auth/checkLogin',
   async () => {
-    const { data } = await api.get("/login/isLoggedIn", {
+    const { data } = await api.get<{
+      user: User | null;
+      isLoggedIn: boolean;
+      error: string | null;
+    }>("/login/isLoggedIn", {
       headers: {
         accept: "application/json",
         "Content-Type": "application/json",
       },
     });
-  
+
     return data;
   }
 )
@@ -94,11 +107,10 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setIsLoggedIn(state, action) {
+    setIsLoggedIn(state, action: { payload: boolean }) {
       state.isLoggedIn = action.payload
     },
-    saveUser(state, action) {
-      console.log(action);
+    saveUser(state, action: { payload: AuthUser | null }) {
       state.user = action.payload
     }
   },
@@ -119,8 +131,8 @@ export const authSlice = createSlice({
         state.loginError = null;
         state.user = null;
     }).addCase(checkLogin.fulfilled, (state, action) => {
-        state.user= action.payload.user;
-        state.isLoggedIn= action.payload.isLoggedIn;
+        state.user = action.payload.user;
+        state.isLoggedIn = action.payload.isLoggedIn;
     });
   }
 });

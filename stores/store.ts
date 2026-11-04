@@ -7,7 +7,7 @@ import {
 import { authSlice } from "./authSlice";
 import { createWrapper } from "next-redux-wrapper";
 import { themeSlice } from "./themeSlice";
-import { persistReducer, persistStore } from "redux-persist";
+import { persistReducer, persistStore, type Persistor } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 const rootReducer = combineReducers({
@@ -21,6 +21,10 @@ const makeConfiguredStore = () =>
     devTools: true,
   });
 
+export type AppStore = ReturnType<typeof makeConfiguredStore> & {
+  __persistor?: Persistor;
+};
+
 export const makeStore = () => {
   const isServer = typeof window === "undefined";
   if (isServer) {
@@ -32,16 +36,15 @@ export const makeStore = () => {
       storage,
     };
     const persistedReducer = persistReducer(persistConfig, rootReducer);
-    let store: any = configureStore({
+    const store = configureStore({
       reducer: persistedReducer,
       devTools: process.env.NODE_ENV !== "production",
     });
-    store.__persistor = persistStore(store); // Nasty hack
+    (store as AppStore).__persistor = persistStore(store);
     return store;
   }
 };
 
-export type AppStore = ReturnType<typeof makeStore>;
 export type AppDispatch = AppStore["dispatch"];
 export type AppState = ReturnType<AppStore["getState"]>;
 export type AppThunk<ReturnType = void> = ThunkAction<

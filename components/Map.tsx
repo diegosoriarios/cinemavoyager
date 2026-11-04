@@ -9,7 +9,7 @@ const mapHeight = 600;
 
 type MapProps = {
   selected: SelectedProps,
-  setSelected: Function
+  setSelected: (selected: SelectedProps) => void
 }
 
 const Map = ({ selected, setSelected }: MapProps) => {

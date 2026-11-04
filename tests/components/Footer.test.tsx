@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
-import Footer from "@/pages/components/Footer";
+import Footer from "@/components/Footer";
 import { SITE_NAME } from "@/utils/labels";
 
 describe("Footer", () => {

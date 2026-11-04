@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Navbar from "../components/NavBar";
-import Footer from "../components/Footer";
+import Navbar from "@/components/NavBar";
+import Footer from "@/components/Footer";
 import { getFlagByCountryNameMini } from "@/utils/flags";
-import Pagination from "../components/Pagination";
-import Card from "../components/Card";
+import Pagination from "@/components/Pagination";
+import Card from "@/components/Card";
 import Image from "next/image";
-import BookmarkedCard from "../components/BookmarkedCard";
+import BookmarkedCard from "@/components/BookmarkedCard";
 import api from "@/utils/api";
+import type { Movie } from "@/types/movie";
 
 const WatchList = () => {
   const router = useRouter();
   const { countries } = router.query;
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
 
@@ -23,7 +24,7 @@ const WatchList = () => {
   const initialize = async () => {
     const {
       data: { movies: movie },
-    } = await api.get("/movies");
+    } = await api.get<{ movies: Movie[] }>("/movies");
     setMovies(movie);
   };
 

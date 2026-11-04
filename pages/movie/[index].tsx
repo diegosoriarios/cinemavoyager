@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import Navbar from "../components/NavBar";
+import Navbar from "@/components/NavBar";
 import { getStreamingIcons } from "@/utils/streamings";
 import { useSelector } from "react-redux";
 import { selectLocation, selectUser } from "@/stores/authSlice";
@@ -126,24 +126,22 @@ const MovieDetail = () => {
   }, [])
 
   const getIsFavorite = async () => {
+    if (!user || !id) return;
     try {
       const {
         data: { isBookmarked: bookmarked },
-      } = await api.get("/bookmarks", { params: { userId: user.id, movieId: id } });
+      } = await api.get<{ isBookmarked: boolean }>("/bookmarks", { params: { userId: user.id, movieId: id } });
       setIsBookmarked(bookmarked);
     } catch (e) {}
   }
 
   const handleFavorite = async () => {
-    console.log(user.id);
-    console.log(id);
+    if (!user || !id) return;
     saveOnDatabase(user.id, id);
   }
 
-  const saveOnDatabase = async (userId: String, movieId: String) => {
-    const {
-      data,
-    } = await api.post("/movie", { userId, movieId });
+  const saveOnDatabase = async (userId: string, movieId: string) => {
+    await api.post("/movie", { userId, movieId });
   }
 
   return (

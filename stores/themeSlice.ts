@@ -1,12 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { AppState } from "./store";
+import { createSlice, type AnyAction } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
+import type { AppState } from "./store";
+
+export type Theme = "dark" | "light";
 
 export interface ThemeState {
-  theme: string
+  theme: Theme
 }
 
-const initialState : ThemeState = {
+const initialState: ThemeState = {
   theme: "dark"
 };
 
@@ -14,25 +16,25 @@ export const themeSlice = createSlice({
   name: "theme",
   initialState,
   reducers: {
-    toggleTheme(state, action) {
-      const theme = state.theme === "dark" ? "light" : "dark";
-      const colorTheme = state.theme === "dark" ? "dark" : "light";
+    toggleTheme(state) {
+      const theme: Theme = state.theme === "dark" ? "light" : "dark";
+      const colorTheme: Theme = state.theme === "dark" ? "dark" : "light";
       localStorage.setItem("color-theme", theme);
-    
+
       const root = window.document.documentElement;
       root.classList.remove(colorTheme);
       root.classList.add(theme);
-    
-      state.theme = state.theme === "dark" ? "light" : "dark"
+
+      state.theme = theme
     }
   },
-  extraReducers: {
-    [HYDRATE]: (state, action) => {
+  extraReducers: (builder) => {
+    builder.addCase(HYDRATE, (state, action: AnyAction) => {
       return {
         ...state,
         ...action.payload.theme
       }
-    }
+    })
   }
 });
 
