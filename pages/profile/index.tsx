@@ -1,5 +1,6 @@
 import { useFormik } from "formik";
 import React, { useEffect } from "react";
+import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "@/components/NavBar";
 import CountrySelect from "@/components/CountrySelect";
@@ -86,10 +87,13 @@ const Profile = () => {
         onSubmit={formik.handleSubmit}
       >
         <div className="items-center mx-auto my-5">
-          <img
-            className="w-32 h-32 rounded-full"
-            src={formik.values.avatar}
+          <Image
+            className="w-32 h-32 rounded-full object-cover"
+            src={formik.values.avatar || "/favicon.svg"}
             alt="Avatar"
+            width={128}
+            height={128}
+            unoptimized
           />
         </div>
         <div className="mb-6">

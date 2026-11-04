@@ -1,11 +1,16 @@
 import Link from "next/link";
 import React from "react";
+import { MdOutlineMovie } from "react-icons/md";
 
 export default function EmptyState() {
   return (
     <section className="dark:bg-gray-900 bg-gray-100 py-4 bg-neutral-50 overflow-hidden">
       <div className="container px-4 mx-auto">
-        <img className="mx-auto" src="dashy-assets/images/empty.png" alt="" />
+        <MdOutlineMovie
+          className="mx-auto mb-4 text-gray-400 dark:text-gray-500"
+          size={56}
+          aria-hidden="true"
+        />
         <div className="max-w-md mx-auto text-center">
           <h2 className="font-heading mb-3 text-2xl font-semibold">
             It&rsquo;s a bit empty here

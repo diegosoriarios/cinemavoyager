@@ -1,1 +1,1 @@
-export const SITE_NAME = "Voyager"
+export const SITE_NAME = "CinemaVoyager"

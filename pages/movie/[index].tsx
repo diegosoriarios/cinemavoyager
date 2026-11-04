@@ -195,9 +195,11 @@ const MovieDetail = () => {
                         className="flex flex-col"
                       >
                         <p>{offer.type}</p>
-                        <img
-                          src={icon.src}
+                        <Image
+                          src={icon}
                           alt={service}
+                          width={icon.width}
+                          height={icon.height}
                           style={{
                             width: icon.width * 0.5,
                             height: icon.height * 0.5,

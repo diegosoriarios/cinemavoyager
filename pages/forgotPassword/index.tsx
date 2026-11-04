@@ -4,7 +4,9 @@ import React, { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import TextInput from "@/components/forms/TextInput";
 import SubmitButton from "@/components/forms/SubmitButton";
+import Logo from "@/components/Logo";
 import supabase from "@/utils/supabase-browser";
+import { SITE_NAME } from "@/utils/labels";
 
 const ForgotPassword = () => {
   const [sent, setSent] = useState(false);
@@ -37,17 +39,13 @@ const ForgotPassword = () => {
           <Link href="/login">
             <FaArrowLeft />
           </Link>
-          <a
-            href="#"
+          <Link
+            href="/"
             className="m-auto flex items-center text-2xl font-semibold text-gray-900 dark:text-white"
           >
-            <img
-              className="w-8 h-8 mr-2"
-              src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
-              alt="logo"
-            />
-            Flowbite
-          </a>
+            <Logo className="w-8 h-8 mr-2" />
+            {SITE_NAME}
+          </Link>
         </div>
         <div className="w-full p-6 bg-gray-300 rounded-lg shadow dark:border md:mt-0 sm:max-w-md dark:bg-gray-800 dark:border-gray-700 sm:p-8">
           <h2 className="mb-1 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">

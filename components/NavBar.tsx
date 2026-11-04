@@ -1,10 +1,12 @@
 import { Menu, Transition } from "@headlessui/react";
 import Link from "next/link";
+import Image from "next/image";
 import { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { selectIsLoggedIn, selectUser } from "@/stores/authSlice";
 import { SITE_NAME } from "@/utils/labels";
 import { GuestMenuItems, UserMenuItems } from "./NavBarMenu";
+import Logo from "./Logo";
 
 const PLACEHOLDER_AVATAR =
   "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png";
@@ -26,11 +28,7 @@ const Navbar = () => {
   return (
     <nav className="flex flex-row justify-between bg-gray-300 border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
       <Link href="/" className="flex items-center">
-        <img
-          src="https://flowbite.com/docs/images/logo.svg"
-          className="h-6 mr-3 sm:h-9"
-          alt="Logo"
-        />
+        <Logo className="h-6 w-6 mr-3 sm:h-9 sm:w-9" />
         <span className="self-center text-xl font-semibold whitespace-nowrap text-black dark:text-white">
           {SITE_NAME}
         </span>
@@ -46,10 +44,13 @@ const Navbar = () => {
               data-dropdown-placement="bottom"
             >
               <span className="sr-only">Open user menu</span>
-              <img
+              <Image
                 className="w-8 h-8 rounded-full"
                 src={user?.avatar_url || PLACEHOLDER_AVATAR}
                 alt="user photo"
+                width={32}
+                height={32}
+                unoptimized
               />
             </Menu.Button>
           </div>

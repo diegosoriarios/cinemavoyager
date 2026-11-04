@@ -11,7 +11,22 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'flags.fmcdn.net',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'image.tmdb.org',
+        port: '',
+      },
+      {
+        protocol: 'https',
         hostname: 'www.themoviedb.org',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.pixabay.com',
         port: '',
       },
     ],

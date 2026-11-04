@@ -1,4 +1,5 @@
-import Map from "@/components/Map";
+import dynamic from "next/dynamic";
+import Image from "next/image";
 import { useState } from "react";
 import "react-tooltip/dist/react-tooltip.css";
 import { SelectedProps } from "@/types/props";
@@ -6,6 +7,15 @@ import { FaArrowRight } from "react-icons/fa";
 import Navbar from "@/components/NavBar";
 import { getFlagByCountryNameMini } from "@/utils/flags";
 import Link from "next/link";
+
+const Map = dynamic(() => import("@/components/Map"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex h-[70vh] items-center justify-center text-gray-500 dark:text-gray-400">
+      Loading map...
+    </div>
+  ),
+});
 
 export default function Home() {
   const [selected, setSelected] = useState<SelectedProps>({ name: "", id: "" });
@@ -21,10 +31,13 @@ export default function Home() {
           <>
             <div className="flex align-center flex-row w-60">
               <p className="min-w-fit mr-4 dark:text-white text-black">{selected.name}</p>
-              <img
-                className="h-7"
+              <Image
+                className="h-7 w-auto"
                 src={getFlagByCountryNameMini(selected.name)}
                 alt={selected.id}
+                width={40}
+                height={28}
+                unoptimized
               />
             </div>
             <Link href={{ pathname: `/${selected.name}`, query: { country: selected.id }}}>

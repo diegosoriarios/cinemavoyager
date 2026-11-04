@@ -1,4 +1,5 @@
 import { Listbox } from "@headlessui/react";
+import Image from "next/image";
 import React, { useState } from "react";
 import { countriesFlags, getFlagByCountryNameMini } from "@/utils/flags";
 
@@ -21,10 +22,13 @@ const CountrySelect = ({ handleSelect, defaultValue = "" }: CountrySelectProps) 
         <Listbox.Button className="h-10 text-gray-900 text-sm dark:text-white flex flex-row items-center px-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
           <span>
             {selectedPerson && (
-              <img
-                className="h-7 mr-4"
+              <Image
+                className="h-7 w-auto mr-4"
                 src={getFlagByCountryNameMini(selectedPerson)}
                 alt={selectedPerson}
+                width={40}
+                height={28}
+                unoptimized
               />
             )}
           </span>
@@ -40,10 +44,13 @@ const CountrySelect = ({ handleSelect, defaultValue = "" }: CountrySelectProps) 
               }
             >
               <div className="w-10 mr-5">
-                <img
-                  className="h-7"
+                <Image
+                  className="h-7 w-auto"
                   src={getFlagByCountryNameMini(key)}
                   alt={key}
+                  width={40}
+                  height={28}
+                  unoptimized
                 />
               </div>
               {key}

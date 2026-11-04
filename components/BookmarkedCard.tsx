@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import React, { useState } from "react";
 import { FaArrowRight, FaTrashAlt } from "react-icons/fa";
 import { CardProps } from "@/types/props";
@@ -35,7 +36,15 @@ const BookmarkedCard = ({
   return (
     <div className="max-w-sm bg-gray-300 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <Link href={{ pathname: `/movie/${name}`, query: { id, name, image, genres, sinopsis, country } }}>
-        <img className="rounded-t-lg" src={image} alt={name} />
+        <Image
+          className="rounded-t-lg w-full h-64 object-cover"
+          src={image}
+          alt={name}
+          width={0}
+          height={0}
+          sizes="(max-width: 768px) 100vw, 24rem"
+          style={{ width: "100%", height: "16rem" }}
+        />
       </Link>
       <div className="p-5">
         <Link href={{ pathname: `/movie/${name}`, query: { id, name, image, genres, sinopsis, country } }}>
