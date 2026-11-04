@@ -1,19 +1,18 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { withIronSessionApiRoute } from "iron-session/next";
-import supabase from "../../utils/supabase";
-
-export type User = {
-  email: string;
-  password: string;
-  name: string;
-  id: string;
-  avatar: string;
-}
+import type { User } from "@supabase/supabase-js";
+import supabase from "@/utils/supabase";
 
 export type UserLogin = {
   user: User | null;
   isLoggedIn: boolean;
-  error: string,
+  error: string | null;
+}
+
+declare module "iron-session" {
+  interface IronSessionData {
+    user?: UserLogin;
+  }
 }
 
 export const ironOptions = {

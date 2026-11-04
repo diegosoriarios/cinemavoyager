@@ -1,15 +1,15 @@
-import { Inter } from "@next/font/google";
+import { Inter } from "next/font/google";
 import Map from "./components/Map";
 import styles from "@/styles/Home.module.css";
 import { useEffect, useState } from "react";
 import "react-tooltip/dist/react-tooltip.css";
-import { SelectedProps } from "./types/props";
+import { SelectedProps } from "@/types/props";
 import { FaArrowRight } from "react-icons/fa";
 import Navbar from "./components/NavBar";
-import { getFlagByCountryNameMini } from "./utils/flags";
+import { getFlagByCountryNameMini } from "@/utils/flags";
 import Link from "next/link";
-import { wrapper } from "./stores/store";
-import { setIsLoggedIn } from "./stores/authSlice";
+import { wrapper } from "@/stores/store";
+import { setIsLoggedIn } from "@/stores/authSlice";
 
 const inter = Inter({ subsets: ["latin"] });
 

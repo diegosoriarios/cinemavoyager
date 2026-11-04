@@ -10,8 +10,9 @@ import {
   selectIsLoggedInError,
   selectIsLoggedInPending,
   selectUser,
-} from "../stores/authSlice";
-import api from "../utils/api";
+} from "@/stores/authSlice";
+import api from "@/utils/api";
+import type { AppDispatch } from "@/stores/store";
 
 const Login = () => {
   const router = useRouter();
@@ -21,7 +22,7 @@ const Login = () => {
   const isLoginPending = useSelector(selectIsLoggedInPending);
 
   const user = useSelector(selectUser);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const formik = useFormik({
     initialValues: {

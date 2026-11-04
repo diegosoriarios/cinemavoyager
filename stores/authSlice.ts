@@ -21,7 +21,7 @@ const initialState : AuthState = {
 
 export const fetchLogin = createAsyncThunk(
   'auth/fetchLogin',
-  async (payload, next) => {
+  async (payload: { email: string; password: string }, next) => {
     try {
       const { data } = await api.post(
         "/login",
@@ -61,7 +61,7 @@ export const fetchLogin = createAsyncThunk(
 )
 export const logout = createAsyncThunk(
   'auth/logout',
-  async (email) => {
+  async (email: string) => {
     const { data } = await api.post(
       "/login/logout",
       { email },

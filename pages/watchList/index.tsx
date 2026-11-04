@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Navbar from "../components/NavBar";
 import Footer from "../components/Footer";
-import { getFlagByCountryNameMini } from "../utils/flags";
+import { getFlagByCountryNameMini } from "@/utils/flags";
 import Pagination from "../components/Pagination";
 import Card from "../components/Card";
 import Image from "next/image";
 import BookmarkedCard from "../components/BookmarkedCard";
-import api from "../utils/api";
+import api from "@/utils/api";
 
 const WatchList = () => {
   const router = useRouter();
@@ -38,17 +38,19 @@ const WatchList = () => {
         Watch List
       </h1>
       <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-center justify-center">
-        {movies.length &&
-          movies?.map(({ name, image, genres, sinopsis }, index) => 
+        {movies.length ? (
+          movies?.map(({ id, name, image, genres, sinopsis }, index) =>
               <BookmarkedCard
                 key={index}
+                id={id}
                 name={name}
                 image={image}
                 genres={genres}
                 sinopsis={sinopsis}
               />
-            
-          )}
+
+          )
+        ) : null}
       </div>
       <Pagination items={movies.length} currentPage={currentPage} pageSize={pageSize} onPageChange={onPageChange} />
       <Footer />

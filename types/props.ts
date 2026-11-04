@@ -9,5 +9,5 @@ export type CardProps = {
   image: string
   genres: string
   sinopsis: string
-  country: string
+  country?: string
 }

@@ -11,9 +11,10 @@ import {
 } from "react-icons/md";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { logout, selectIsLoggedIn, selectUser } from "../stores/authSlice";
-import { selectTheme, toggleTheme } from "../stores/themeSlice";
-import { SITE_NAME } from "../utils/labels";
+import { logout, selectIsLoggedIn, selectUser } from "@/stores/authSlice";
+import { selectTheme, toggleTheme } from "@/stores/themeSlice";
+import { SITE_NAME } from "@/utils/labels";
+import type { AppDispatch } from "@/stores/store";
 
 const user = {
   name: "Diego Soria Rios",
@@ -25,7 +26,7 @@ const Navbar = () => {
   const theme = useSelector(selectTheme);
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const user = useSelector(selectUser);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleLogout = () => {
     dispatch(logout(user.email));

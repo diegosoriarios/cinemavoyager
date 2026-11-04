@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { FaArrowRight, FaTrashAlt } from "react-icons/fa";
-import { CardProps } from "../types/props";
+import { CardProps } from "@/types/props";
 
 const BookmarkedCard = ({ name, image, genres, sinopsis }: CardProps) => {
   const handleOnClick = () => {

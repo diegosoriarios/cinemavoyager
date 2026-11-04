@@ -1,13 +1,13 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/NavBar";
-import { getStreamingIcons } from "../utils/streamings";
+import { getStreamingIcons } from "@/utils/streamings";
 import { useSelector } from "react-redux";
-import { selectLocation, selectUser } from "../stores/authSlice";
+import { selectLocation, selectUser } from "@/stores/authSlice";
 import Image from "next/image";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
-import api from "../utils/api";
-import { CardProps } from "../types/props";
+import api from "@/utils/api";
+import { CardProps } from "@/types/props";
 
 const streamDetail = {
   id: 1,
@@ -205,39 +205,42 @@ const MovieDetail = () => {
           Streaming Info
         </h3>
         <div>
-          {Object.entries(streamDetail.streamingInfo[location]).map(
-            ([name, details]) => {
-              console.log(details);
-              return (
-                <div key={details.id}>
-                  <h3>{name}</h3>
-                  <div className="flex flex-row">
-                    {details.map((data) => {
-                      const icon = getStreamingIcons(name);
-                      return (
-                        <a
-                          href={data.link}
-                          target="_blank"
-                          className="flex flex-col"
-                        >
-                          <p>{data.type}</p>
-                          <img
-                            src={icon.src}
-                            alt={name}
-                            style={{
-                              width: icon.width * 0.5,
-                              height: icon.height * 0.5,
-                            }}
-                          />
-                          <p>{data.price.formatted}</p>
-                        </a>
-                      );
-                    })}
-                  </div>
+          {Object.entries(
+            (streamDetail.streamingInfo as Record<
+              string,
+              Record<string, { type: string; link: string; price: { formatted: string } | null }[]>
+            >)[location] ?? {}
+          ).map(([name, details]) => {
+            return (
+              <div key={name}>
+                <h3>{name}</h3>
+                <div className="flex flex-row">
+                  {details.map((data) => {
+                    const icon = getStreamingIcons(name);
+                    return (
+                      <a
+                        key={data.link}
+                        href={data.link}
+                        target="_blank"
+                        className="flex flex-col"
+                      >
+                        <p>{data.type}</p>
+                        <img
+                          src={icon.src}
+                          alt={name}
+                          style={{
+                            width: icon.width * 0.5,
+                            height: icon.height * 0.5,
+                          }}
+                        />
+                        <p>{data.price?.formatted}</p>
+                      </a>
+                    );
+                  })}
                 </div>
-              );
-            }
-          )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </>

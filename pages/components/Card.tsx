@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { CardProps } from "../types/props";
+import { CardProps } from "@/types/props";
 import Image from "next/image";
 
 const Card = ({ id, name, image, genres, sinopsis }: CardProps) => {

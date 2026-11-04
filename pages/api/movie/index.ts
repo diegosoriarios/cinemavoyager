@@ -31,9 +31,10 @@ async function getStreamList({ title, country = "us", show_type, output_language
 }
 
 import { Client } from "pg";
-import supabase from "../../utils/supabase";
+import supabase from "@/utils/supabase";
+import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // const client = new Client({
   //   connectionString: process.env.DATABASE_URL,
   //   application_name: "$ docs_quickstart_node"

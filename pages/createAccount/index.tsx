@@ -2,7 +2,7 @@ import { FormikValues, useFormik } from 'formik';
 import Link from 'next/link';
 import React from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
-import supabase from '../utils/supabase';
+import supabase from '@/utils/supabase';
 
 const CreateAccount = () => {
   const handleSubmit = async (values: FormikValues) => {

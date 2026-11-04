@@ -1,6 +1,7 @@
-import supabase from "../../utils/supabase";
+import supabase from "@/utils/supabase";
+import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     // Process a POST request
   } else if (req.method === 'GET') {
@@ -8,9 +9,7 @@ export default async function handler(req, res) {
 
     const { data } = await supabase.from('profiles').select().eq("id", user);
 
-    console.log(data);
-    
-    res.status(200).json({ profile: data[0] })
+    res.status(200).json({ profile: data?.[0] ?? null })
   }
 }
 /*

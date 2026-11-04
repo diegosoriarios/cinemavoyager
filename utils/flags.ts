@@ -13,7 +13,10 @@
  * 	Usage is given below..
  **/
 
-export const countriesFlags = {
+export const countriesFlags: Record<
+  string,
+  { mini: string; normal: string; alias?: string }
+> = {
   Afghanistan: {
     mini: "http://flags.fmcdn.net/data/flags/mini/af.png",
     normal: "http://flags.fmcdn.net/data/flags/normal/af.png",

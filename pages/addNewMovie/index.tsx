@@ -4,10 +4,10 @@ import { FaArrowLeft } from "react-icons/fa";
 import CountrySelect from "../components/CountrySelect";
 import Multiselect from "../components/Multiselect";
 import { useSelector } from "react-redux";
-import { selectUser } from "../stores/authSlice";
+import { selectUser } from "@/stores/authSlice";
 import { useFormik } from "formik";
-import { getCountryCodeByName } from "../utils/country_code";
-import { selectTheme } from "../stores/themeSlice";
+import { getCountryCodeByName } from "@/utils/country_code";
+import { selectTheme } from "@/stores/themeSlice";
 
 const AddNewMovieForm = (author = "username") => {
   const user = useSelector(selectUser);
@@ -32,7 +32,7 @@ const AddNewMovieForm = (author = "username") => {
     }
   });
 
-  const handleChange = (genresArray: String[]) => {
+  const handleChange = (genresArray: { name: string }[]) => {
     const array = genresArray.map(({ name }) => name).toString();
     formik.setFieldValue("genres", array)
   }

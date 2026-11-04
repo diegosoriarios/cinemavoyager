@@ -1,9 +1,8 @@
 import React from "react";
 import { ZoomableGroup, ComposableMap, Geographies, Geography } from "react-simple-maps";
-import features from "../../features.json";
-import { SelectedProps } from "../types/props";
+import { SelectedProps } from "@/types/props";
 import { useSelector } from "react-redux";
-import { selectTheme } from "../stores/themeSlice";
+import { selectTheme } from "@/stores/themeSlice";
 
 const mapWidth = 1000;
 const mapHeight = 600;
@@ -27,7 +26,7 @@ const Map = ({ selected, setSelected }: MapProps) => {
             [mapWidth, mapHeight]
           ]}
         >
-          <Geographies geography={features}>
+          <Geographies geography="/features.json">
               {({ geographies }) => {
                 return geographies.map((geo) => (
                   <Geography
@@ -35,7 +34,6 @@ const Map = ({ selected, setSelected }: MapProps) => {
                     geography={geo}
                     id="tooltip-anchor-click"
                     onClick={() => {
-                      console.log(geo)
                       setSelected({
                         id: geo.id,
                         name: geo.properties.name

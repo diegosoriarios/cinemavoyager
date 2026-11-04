@@ -1,5 +1,5 @@
 import React from "react";
-import { SITE_NAME } from "../utils/labels";
+import { SITE_NAME } from "@/utils/labels";
 
 const Footer = () => {
     return (

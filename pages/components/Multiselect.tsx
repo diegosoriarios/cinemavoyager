@@ -37,7 +37,11 @@ const genres = [
   { id: 28, name: ' Western' }
 ]
 
-const Multiselect = ({ handleChange }) => {
+type MultiselectProps = {
+  handleChange: (genres: GenreProp[]) => void;
+}
+
+const Multiselect = ({ handleChange }: MultiselectProps) => {
   const [selectedGenre, setSelectedPerson] = useState<GenreProp[]>([])
 
   const handleSelect = (item: GenreProp) => {
@@ -60,7 +64,7 @@ const Multiselect = ({ handleChange }) => {
   return (
     <>
       <label htmlFor="subject" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Genres</label>
-      <Listbox value={selectedGenre} onChange={handleSelect}>
+      <Listbox value={selectedGenre} onChange={(item) => handleSelect(item as unknown as GenreProp)}>
         <Listbox.Button className="h-10 flex flex-row items-center px-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{
           selectedGenre.map(genre => (
             <button

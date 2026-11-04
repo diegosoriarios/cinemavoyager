@@ -1,7 +1,8 @@
 import { Client } from "pg";
-import supabase from "../../utils/supabase";
+import supabase from "@/utils/supabase";
+import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // const client = new Client({
   //   connectionString: process.env.DATABASE_URL,
   //   application_name: "$ docs_quickstart_node"
@@ -14,7 +15,8 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     return;
   } else if (req.method === "GET") {
-    const { country, page = 0 } = req.query;
+    const { country } = req.query;
+    const page = Number(req.query.page ?? 0);
 
     const { data: movies } = await supabase
       .from("movies")

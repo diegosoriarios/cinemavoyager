@@ -1,13 +1,17 @@
 import { Listbox } from "@headlessui/react";
 import React, { useState } from "react";
-import { countriesFlags, getFlagByCountryNameMini } from "../utils/flags";
+import { countriesFlags, getFlagByCountryNameMini } from "@/utils/flags";
 
-const CountrySelect = ({ handleSelect }) => {
+type CountrySelectProps = {
+  handleSelect?: (country: string) => void;
+};
+
+const CountrySelect = ({ handleSelect }: CountrySelectProps) => {
   const [selectedPerson, changeSelected] = useState("");
 
-  const setSelectedPerson = (value) => {
+  const setSelectedPerson = (value: string) => {
     changeSelected(value);
-    handleSelect(value);
+    handleSelect?.(value);
   }
 
   return (

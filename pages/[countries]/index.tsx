@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Navbar from "../components/NavBar";
 import Footer from "../components/Footer";
-import { getFlagByCountryNameMini } from "../utils/flags";
+import { getFlagByCountryNameMini } from "@/utils/flags";
 import Pagination from "../components/Pagination";
 import Card from "../components/Card";
 import Image from "next/image";
-import { CardProps } from "../types/props";
-import api from "../utils/api";
+import { CardProps } from "@/types/props";
+import api from "@/utils/api";
 import EmptyState from "../components/EmptyState";
 import Loading from "../components/Loading";
 
@@ -47,7 +47,7 @@ const CountryList = () => {
       <h1 className="m-8 justify-items-center flex items-center text-5xl font-extrabold dark:text-white text-black">
         {countries}
         <span className="h-4 aspect-video relative text-blue-800 justify-items-center items-center text-2xl font-semibold mr-2 px-2.5 py-0.5 rounded ml-2">
-          <Image fill src={getFlagByCountryNameMini(countries)} alt="country" />
+          <Image fill src={getFlagByCountryNameMini(typeof countries === "string" ? countries : "")} alt="country" />
         </span>
       </h1>
       <div className="m-4">

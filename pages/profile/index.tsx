@@ -3,9 +3,8 @@ import React, { useEffect } from "react";
 import Navbar from "../components/NavBar";
 import CountrySelect from "../components/CountrySelect";
 import { useSelector } from "react-redux";
-import { selectUser } from "../stores/authSlice";
-import api from "../utils/api";
-import PasswordField from "./PasswordField";
+import { selectUser } from "@/stores/authSlice";
+import api from "@/utils/api";
 
 const Profile = () => {
   const user = useSelector(selectUser);
@@ -77,7 +76,6 @@ const Profile = () => {
         <CountrySelect />
       </div>
       <span className="w-full my-6 h-px bg-gray-300 lg:w-full"></span>
-      <PasswordField />
       <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save</button>
       <p className="my-5 text-sm font-light text-gray-500 dark:text-gray-400">
         <a href="#" className="font-small text-red-600 hover:underline dark:text-red-500">Delete account here</a>
